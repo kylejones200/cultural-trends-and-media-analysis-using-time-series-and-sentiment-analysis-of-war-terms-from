@@ -25,7 +25,7 @@ def calculate_sentiment_score(text_data: pd.Series, positive_words: list, negati
     return pd.Series(scores, index=text_data.index)
 
 def plot_sentiment_trend(sentiment: pd.Series, title: str, output_path: Path):
- """Plot sentiment trend over time """
+    """Plot sentiment trend over time """
     fig, ax = plt.subplots(figsize=(10, 6))
     
     if hasattr(sentiment.index, '__len__') and len(sentiment.index) > 0:
@@ -46,7 +46,7 @@ def plot_sentiment_trend(sentiment: pd.Series, title: str, output_path: Path):
     plt.close()
 
 def plot_word_frequency(word_counts: Dict[str, int], title: str, output_path: Path, top_n: int = 10):
- """Plot word frequency """
+    """Plot word frequency """
     fig, ax = plt.subplots(figsize=(10, 6))
     
     sorted_words = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)[:top_n]
