@@ -1,0 +1,79 @@
+commodities:
+  gold_prices:
+    description: Monthly gold spot prices from FRED or yfinance.
+    source: data/external/commodities/gold_prices.csv
+    frequency: monthly
+    time_col: ds
+    value_col: y
+    unique_id: gold_prices
+    tags:
+    - commodities
+    - safe_haven
+  crude_oil:
+    description: Monthly Brent crude oil prices from FRED or yfinance.
+    source: data/external/commodities/crude_oil.csv
+    frequency: monthly
+    time_col: ds
+    value_col: y
+    unique_id: crude_oil
+    tags:
+    - commodities
+    - energy
+culture:
+  film_releases:
+    description: Monthly film release counts (synthetic based on industry patterns).
+    source: data/external/culture/film_releases.csv
+    frequency: monthly
+    time_col: ds
+    value_col: y
+    unique_id: film_releases
+    tags:
+    - culture
+    - media
+  book_sales:
+    description: Monthly book sales index (synthetic based on industry patterns).
+    source: data/external/culture/book_sales.csv
+    frequency: monthly
+    time_col: ds
+    value_col: y
+    unique_id: book_sales
+    tags:
+    - culture
+    - publishing
+macro:
+  inflation_cpi:
+    description: CPI-based year-over-year inflation rate from FRED.
+    source: data/external/macro/cpi.csv
+    frequency: monthly
+    time_col: ds
+    value_col: y
+    unique_id: inflation_cpi
+    tags:
+    - macro
+    - inflation
+  sentiment_index:
+    description: Consumer sentiment index from FRED (UMCSENT) or synthetic.
+    source: data/external/macro/sentiment_index.csv
+    frequency: monthly
+    time_col: ds
+    value_col: y
+    unique_id: sentiment_index
+    tags:
+    - macro
+    - sentiment
+notes:
+- Update paths as raw datasets are ingested.
+- Maintain consistent schema (unique_id, ds, y) for forecasting pipelines.
+- Document data cleaning steps in notebooks/01_data_scraping.ipynb.
+infrastructure:
+  amtrak_ridership:
+    description: Monthly Amtrak ridership aggregated across national routes.
+    source: WIP/chronotopes_of_culture/data/intermediate/amtrak_ridership.csv
+    frequency: monthly
+    time_col: ds
+    value_col: y
+    tags:
+    - transport
+    - culture
+    - mobility
+    unique_id: amtrak
