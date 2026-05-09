@@ -10,6 +10,12 @@ import pandas as pd
 from utils.storytelling import build_narrative_brief
 
 
+import logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Create narrative briefs from forecast outputs"
@@ -37,7 +43,7 @@ def main() -> None:
     brief = build_narrative_brief(df)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(brief, encoding="utf-8")
-    print(f"✓ Narrative brief saved -> {args.output}")
+    logger.info(f"✓ Narrative brief saved -> {args.output}")
 
 
 if __name__ == "__main__":

@@ -15,6 +15,12 @@ import numpy as np
 import yfinance as yf
 from pandas_datareader import data as pdr
 
+import logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 # Override yfinance pandas_datareader
 yf.pdr_override()
 
@@ -36,7 +42,7 @@ def fetch_gold_prices(
             gold = gold[["unique_id", "ds", "y"]].dropna()
             return gold
     except Exception as e:
-        print(f"FRED gold fetch failed: {e}, trying yfinance...")
+        logger.error(f"FRED gold fetch failed: {e}, trying yfinance...")
 
     # Fallback to yfinance
     try:
@@ -52,7 +58,7 @@ def fetch_gold_prices(
             gold = gold.set_index("ds").resample("MS").last().reset_index()
             return gold
     except Exception as e:
-        print(f"yfinance gold fetch failed: {e}")
+        logger.error(f"yfinance gold fetch failed: {e}")
 
     raise RuntimeError("Could not fetch gold prices from any source")
 
@@ -74,7 +80,7 @@ def fetch_oil_prices(
             oil = oil[["unique_id", "ds", "y"]].dropna()
             return oil
     except Exception as e:
-        print(f"FRED oil fetch failed: {e}, trying yfinance...")
+        logger.error(f"FRED oil fetch failed: {e}, trying yfinance...")
 
     # Fallback to yfinance
     try:
@@ -90,7 +96,7 @@ def fetch_oil_prices(
             oil = oil.set_index("ds").resample("MS").last().reset_index()
             return oil
     except Exception as e:
-        print(f"yfinance oil fetch failed: {e}")
+        logger.error(f"yfinance oil fetch failed: {e}")
 
     raise RuntimeError("Could not fetch oil prices from any source")
 
@@ -112,7 +118,7 @@ def fetch_cpi(start_date: str = "2010-01-01", end_date: str = None) -> pd.DataFr
             cpi = cpi[["unique_id", "ds", "y"]].dropna()
             return cpi
     except Exception as e:
-        print(f"FRED CPI fetch failed: {e}")
+        logger.error(f"FRED CPI fetch failed: {e}")
         raise
 
     raise RuntimeError("Could not fetch CPI data")
@@ -134,9 +140,9 @@ def fetch_sentiment(
             sentiment = sentiment[["unique_id", "ds", "y"]].dropna()
             return sentiment
     except Exception as e:
-        print(f"FRED sentiment fetch failed: {e}")
+        logger.error(f"FRED sentiment fetch failed: {e}")
         # Create synthetic sentiment based on economic indicators
-        print("Creating synthetic sentiment index...")
+        logger.info("Creating synthetic sentiment index...")
         dates = pd.date_range(start=start_date, end=end_date, freq="MS")
         np.random.seed(42)
         base_sentiment = 100 + np.cumsum(np.random.randn(len(dates)) * 2)
@@ -277,79 +283,79 @@ def main() -> None:
     collected = []
 
     if "gold" in datasets_to_collect:
-        print("Collecting gold prices...")
+        logger.info("Collecting gold prices...")
         try:
             gold = fetch_gold_prices(args.start_date, args.end_date)
             gold_path = args.output_dir / "commodities" / "gold_prices.csv"
             gold_path.parent.mkdir(parents=True, exist_ok=True)
             gold.to_csv(gold_path, index=False)
             collected.append(("gold", gold_path))
-            print(f"✓ Gold prices saved: {len(gold)} records")
+            logger.info(f"✓ Gold prices saved: {len(gold)} records")
         except Exception as e:
-            print(f"✗ Gold prices failed: {e}")
+            logger.error(f"✗ Gold prices failed: {e}")
 
     if "oil" in datasets_to_collect:
-        print("Collecting crude oil prices...")
+        logger.info("Collecting crude oil prices...")
         try:
             oil = fetch_oil_prices(args.start_date, args.end_date)
             oil_path = args.output_dir / "commodities" / "crude_oil.csv"
             oil_path.parent.mkdir(parents=True, exist_ok=True)
             oil.to_csv(oil_path, index=False)
             collected.append(("oil", oil_path))
-            print(f"✓ Oil prices saved: {len(oil)} records")
+            logger.info(f"✓ Oil prices saved: {len(oil)} records")
         except Exception as e:
-            print(f"✗ Oil prices failed: {e}")
+            logger.error(f"✗ Oil prices failed: {e}")
 
     if "cpi" in datasets_to_collect:
-        print("Collecting CPI inflation data...")
+        logger.info("Collecting CPI inflation data...")
         try:
             cpi = fetch_cpi(args.start_date, args.end_date)
             cpi_path = args.output_dir / "macro" / "cpi.csv"
             cpi_path.parent.mkdir(parents=True, exist_ok=True)
             cpi.to_csv(cpi_path, index=False)
             collected.append(("cpi", cpi_path))
-            print(f"✓ CPI data saved: {len(cpi)} records")
+            logger.info(f"✓ CPI data saved: {len(cpi)} records")
         except Exception as e:
-            print(f"✗ CPI data failed: {e}")
+            logger.error(f"✗ CPI data failed: {e}")
 
     if "sentiment" in datasets_to_collect:
-        print("Collecting sentiment index...")
+        logger.info("Collecting sentiment index...")
         try:
             sentiment = fetch_sentiment(args.start_date, args.end_date)
             sentiment_path = args.output_dir / "macro" / "sentiment_index.csv"
             sentiment_path.parent.mkdir(parents=True, exist_ok=True)
             sentiment.to_csv(sentiment_path, index=False)
             collected.append(("sentiment", sentiment_path))
-            print(f"✓ Sentiment index saved: {len(sentiment)} records")
+            logger.info(f"✓ Sentiment index saved: {len(sentiment)} records")
         except Exception as e:
-            print(f"✗ Sentiment index failed: {e}")
+            logger.error(f"✗ Sentiment index failed: {e}")
 
     if "film" in datasets_to_collect:
-        print("Generating film release data...")
+        logger.info("Generating film release data...")
         try:
             film = generate_synthetic_film_releases(args.start_date, args.end_date)
             film_path = args.output_dir / "culture" / "film_releases.csv"
             film_path.parent.mkdir(parents=True, exist_ok=True)
             film.to_csv(film_path, index=False)
             collected.append(("film", film_path))
-            print(f"✓ Film releases saved: {len(film)} records")
+            logger.info(f"✓ Film releases saved: {len(film)} records")
         except Exception as e:
-            print(f"✗ Film releases failed: {e}")
+            logger.error(f"✗ Film releases failed: {e}")
 
     if "book" in datasets_to_collect:
-        print("Generating book sales data...")
+        logger.info("Generating book sales data...")
         try:
             book = generate_synthetic_book_sales(args.start_date, args.end_date)
             book_path = args.output_dir / "culture" / "book_sales.csv"
             book_path.parent.mkdir(parents=True, exist_ok=True)
             book.to_csv(book_path, index=False)
             collected.append(("book", book_path))
-            print(f"✓ Book sales saved: {len(book)} records")
+            logger.info(f"✓ Book sales saved: {len(book)} records")
         except Exception as e:
-            print(f"✗ Book sales failed: {e}")
+            logger.error(f"✗ Book sales failed: {e}")
 
     if "amtrak" in datasets_to_collect:
-        print("Loading Amtrak ridership data...")
+        logger.info("Loading Amtrak ridership data...")
         try:
             amtrak = load_amtrak_data()
             amtrak_path = (
@@ -358,13 +364,13 @@ def main() -> None:
             amtrak_path.parent.mkdir(parents=True, exist_ok=True)
             amtrak.to_csv(amtrak_path, index=False)
             collected.append(("amtrak", amtrak_path))
-            print(f"✓ Amtrak data saved: {len(amtrak)} records")
+            logger.info(f"✓ Amtrak data saved: {len(amtrak)} records")
         except Exception as e:
-            print(f"✗ Amtrak data failed: {e}")
+            logger.error(f"✗ Amtrak data failed: {e}")
 
-    print(f"\n✓ Data collection complete. Collected {len(collected)} datasets:")
+    logger.info(f"\n✓ Data collection complete. Collected {len(collected)} datasets:")
     for name, path in collected:
-        print(f"  - {name}: {path}")
+        logger.info(f"  - {name}: {path}")
 
 
 if __name__ == "__main__":

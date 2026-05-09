@@ -14,6 +14,12 @@ from neuralforecast.models import NHITS
 from utils.feature_pipeline import prepare_forecast_frame
 
 
+import logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Execute forecast pipelines for the cultural futures project"
@@ -65,7 +71,7 @@ def main() -> None:
     combined = pd.concat([stats_results, neural_results], ignore_index=True)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     combined.to_parquet(args.output)
-    print(f"✓ Forecasts written -> {args.output}")
+    logger.info(f"✓ Forecasts written -> {args.output}")
 
 
 if __name__ == "__main__":

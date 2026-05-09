@@ -6,6 +6,12 @@ from datetime import datetime
 import pandas as pd
 import numpy as np
 
+import logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 # Add project root to path
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
@@ -122,34 +128,34 @@ def main():
     intermediate_dir = project_root / "data" / "intermediate"
     intermediate_dir.mkdir(parents=True, exist_ok=True)
 
-    print("Generating datasets...")
+    logger.info("Generating datasets...")
 
     # Gold prices
-    print("  Generating gold prices...")
+    logger.info("  Generating gold prices...")
     gold = generate_gold_prices()
     gold_path = output_dir / "commodities" / "gold_prices.csv"
     gold_path.parent.mkdir(parents=True, exist_ok=True)
     gold.to_csv(gold_path, index=False)
-    print(f"    ✓ Saved {len(gold)} records to {gold_path}")
+    logger.info(f"    ✓ Saved {len(gold)} records to {gold_path}")
 
     # Oil prices
-    print("  Generating oil prices...")
+    logger.info("  Generating oil prices...")
     oil = generate_oil_prices()
     oil_path = output_dir / "commodities" / "crude_oil.csv"
     oil_path.parent.mkdir(parents=True, exist_ok=True)
     oil.to_csv(oil_path, index=False)
-    print(f"    ✓ Saved {len(oil)} records to {oil_path}")
+    logger.info(f"    ✓ Saved {len(oil)} records to {oil_path}")
 
     # CPI
-    print("  Generating CPI inflation...")
+    logger.info("  Generating CPI inflation...")
     cpi = generate_cpi()
     cpi_path = output_dir / "macro" / "cpi.csv"
     cpi_path.parent.mkdir(parents=True, exist_ok=True)
     cpi.to_csv(cpi_path, index=False)
-    print(f"    ✓ Saved {len(cpi)} records to {cpi_path}")
+    logger.info(f"    ✓ Saved {len(cpi)} records to {cpi_path}")
 
     # Sentiment
-    print("  Generating sentiment index...")
+    logger.info("  Generating sentiment index...")
     try:
         sentiment = fetch_sentiment()
     except:
@@ -165,32 +171,32 @@ def main():
     sentiment_path = output_dir / "macro" / "sentiment_index.csv"
     sentiment_path.parent.mkdir(parents=True, exist_ok=True)
     sentiment.to_csv(sentiment_path, index=False)
-    print(f"    ✓ Saved {len(sentiment)} records to {sentiment_path}")
+    logger.info(f"    ✓ Saved {len(sentiment)} records to {sentiment_path}")
 
     # Film releases
-    print("  Generating film releases...")
+    logger.info("  Generating film releases...")
     film = generate_synthetic_film_releases()
     film_path = output_dir / "culture" / "film_releases.csv"
     film_path.parent.mkdir(parents=True, exist_ok=True)
     film.to_csv(film_path, index=False)
-    print(f"    ✓ Saved {len(film)} records to {film_path}")
+    logger.info(f"    ✓ Saved {len(film)} records to {film_path}")
 
     # Book sales
-    print("  Generating book sales...")
+    logger.info("  Generating book sales...")
     book = generate_synthetic_book_sales()
     book_path = output_dir / "culture" / "book_sales.csv"
     book_path.parent.mkdir(parents=True, exist_ok=True)
     book.to_csv(book_path, index=False)
-    print(f"    ✓ Saved {len(book)} records to {book_path}")
+    logger.info(f"    ✓ Saved {len(book)} records to {book_path}")
 
     # Amtrak
-    print("  Generating Amtrak data...")
+    logger.info("  Generating Amtrak data...")
     amtrak = generate_amtrak_data()
     amtrak_path = intermediate_dir / "amtrak_ridership.csv"
     amtrak.to_csv(amtrak_path, index=False)
-    print(f"    ✓ Saved {len(amtrak)} records to {amtrak_path}")
+    logger.info(f"    ✓ Saved {len(amtrak)} records to {amtrak_path}")
 
-    print("\n✓ All datasets generated successfully!")
+    logger.info("\n✓ All datasets generated successfully!")
 
 
 if __name__ == "__main__":

@@ -15,6 +15,12 @@ from utils.loaders import load_source
 from utils.feature_pipeline import harmonize_timeseries
 
 
+import logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Build consolidated dataset for cultural futures forecasting"
@@ -59,7 +65,7 @@ def main() -> None:
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
     harmonized.to_parquet(args.output)
-    print(f"✓ Master dataset written -> {args.output}")
+    logger.info(f"✓ Master dataset written -> {args.output}")
 
 
 if __name__ == "__main__":

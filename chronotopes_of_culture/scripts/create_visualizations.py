@@ -10,6 +10,12 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib import font_manager
 
+import logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 # Set publication-quality style
 plt.style.use("seaborn-v0_8-whitegrid")
 plt.rcParams.update(
@@ -237,8 +243,8 @@ def main() -> None:
     # Load master dataset
     master_path = args.data_dir / "master_dataset.parquet"
     if not master_path.exists():
-        print(f"Master dataset not found at {master_path}")
-        print("Run build_dataset.py first to create master dataset.")
+        logger.info(f"Master dataset not found at {master_path}")
+        logger.info("Run build_dataset.py first to create master dataset.")
         return
 
     df = pd.read_parquet(master_path)
@@ -251,23 +257,23 @@ def main() -> None:
     infrastructure = df[df["unique_id"].str.contains("amtrak", case=False, na=False)]
 
     # Plot individual time series
-    print("Generating individual time series plots...")
+    logger.info("Generating individual time series plots...")
     for series_id in df["unique_id"].unique():
         subset = df[df["unique_id"] == series_id].sort_values("ds")
         title = series_id.replace("_", " ").title()
         output_path = args.output_dir / f"{series_id}_timeseries.png"
         plot_time_series(subset, output_path, title=title)
-        print(f"  ✓ {series_id}")
+        logger.info(f"  ✓ {series_id}")
 
     # Plot cross-domain comparison
-    print("Generating cross-domain comparison...")
+    logger.info("Generating cross-domain comparison...")
     output_path = args.output_dir / "cross_domain_comparison.png"
     plot_cross_domain_comparison(commodities, culture, macro, output_path)
-    print(f"  ✓ Cross-domain comparison saved")
+    logger.info(f"  ✓ Cross-domain comparison saved")
 
     # Plot forecasts if available
     if args.forecast_file and args.forecast_file.exists():
-        print("Generating forecast visualizations...")
+        logger.info("Generating forecast visualizations...")
         forecasts = (
             pd.read_parquet(args.forecast_file)
             if args.forecast_file.suffix == ".parquet"
@@ -286,9 +292,9 @@ def main() -> None:
             plot_forecasts(
                 series_historical, series_forecasts, output_path, title=title
             )
-            print(f"  ✓ {series_id} forecasts")
+            logger.info(f"  ✓ {series_id} forecasts")
 
-    print(f"\n✓ All visualizations saved to {args.output_dir}")
+    logger.info(f"\n✓ All visualizations saved to {args.output_dir}")
 
 
 if __name__ == "__main__":

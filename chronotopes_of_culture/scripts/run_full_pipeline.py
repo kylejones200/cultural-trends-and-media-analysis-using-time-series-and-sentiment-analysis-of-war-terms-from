@@ -8,18 +8,24 @@ import sys
 from pathlib import Path
 
 
+import logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 def run_command(cmd: list[str], description: str) -> bool:
     """Run a command and return success status."""
-    print(f"\n{'='*60}")
-    print(f"Step: {description}")
-    print(f"Command: {' '.join(cmd)}")
-    print(f"{'='*60}\n")
+    logger.info(f"\n{'='*60}")
+    logger.info(f"Step: {description}")
+    logger.info(f"Command: {' '.join(cmd)}")
+    logger.info(f"{'='*60}\n")
 
     result = subprocess.run(cmd, capture_output=False)
     if result.returncode != 0:
-        print(f"✗ {description} failed with return code {result.returncode}")
+        logger.error(f"✗ {description} failed with return code {result.returncode}")
         return False
-    print(f"✓ {description} completed successfully")
+    logger.info(f"✓ {description} completed successfully")
     return True
 
 
@@ -71,9 +77,9 @@ def main() -> None:
             steps_completed += 1
         else:
             steps_failed += 1
-            print("Warning: Data collection failed, but continuing...")
+            logger.error("Warning: Data collection failed, but continuing...")
     else:
-        print("Skipping data collection (using existing data)")
+        logger.info("Skipping data collection (using existing data)")
         steps_completed += 1
 
     # Step 2: Build Dataset
@@ -89,7 +95,7 @@ def main() -> None:
         steps_completed += 1
     else:
         steps_failed += 1
-        print("Error: Dataset building failed. Cannot continue.")
+        logger.error("Error: Dataset building failed. Cannot continue.")
         sys.exit(1)
 
     # Step 3: Run Forecasts
@@ -109,9 +115,9 @@ def main() -> None:
             steps_completed += 1
         else:
             steps_failed += 1
-            print("Warning: Forecasting failed, but continuing...")
+            logger.error("Warning: Forecasting failed, but continuing...")
     else:
-        print("Skipping forecasting")
+        logger.info("Skipping forecasting")
         steps_completed += 1
 
     # Step 4: Generate Visualizations
@@ -133,9 +139,9 @@ def main() -> None:
             steps_completed += 1
         else:
             steps_failed += 1
-            print("Warning: Visualization generation failed")
+            logger.error("Warning: Visualization generation failed")
     else:
-        print("Skipping visualization")
+        logger.info("Skipping visualization")
         steps_completed += 1
 
     # Step 5: Generate Narrative Brief
@@ -154,19 +160,19 @@ def main() -> None:
         else:
             steps_failed += 1
     else:
-        print("Skipping narrative brief (no forecast file found)")
+        logger.info("Skipping narrative brief (no forecast file found)")
 
     # Summary
-    print(f"\n{'='*60}")
-    print("Pipeline Summary")
-    print(f"{'='*60}")
-    print(f"Steps completed: {steps_completed}")
-    print(f"Steps failed: {steps_failed}")
+    logger.info(f"\n{'='*60}")
+    logger.info("Pipeline Summary")
+    logger.info(f"{'='*60}")
+    logger.info(f"Steps completed: {steps_completed}")
+    logger.error(f"Steps failed: {steps_failed}")
 
     if steps_failed == 0:
-        print("\n✓ Pipeline completed successfully!")
+        logger.info("\n✓ Pipeline completed successfully!")
     else:
-        print(f"\n⚠ Pipeline completed with {steps_failed} warning(s)")
+        logger.error(f"\n⚠ Pipeline completed with {steps_failed} warning(s)")
 
 
 if __name__ == "__main__":
