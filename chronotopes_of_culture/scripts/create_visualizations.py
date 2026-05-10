@@ -31,23 +31,24 @@ plt.rcParams.update(
 )
 
 
-def plot_time_series(df: pd.DataFrame, output_path: Path, title: str = None) -> None:
+def plot_time_series(df: pd.DataFrame, output_path: Path, title: str = None, plot: bool = False) -> None:
     """Plot a single time series."""
-    fig, ax = plt.subplots(figsize=(10, 5))
+    if plot:
+        fig, ax = plt.subplots(figsize=(10, 5))
 
-    ax.plot(df["ds"], df["y"], linewidth=1.5, color="steelblue")
-    ax.set_xlabel("Date", fontsize=12)
-    ax.set_ylabel("Value", fontsize=12)
-    if title:
-        ax.set_title(title, fontsize=14, fontweight="bold")
+        ax.plot(df["ds"], df["y"], linewidth=1.5, color="steelblue")
+        ax.set_xlabel("Date", fontsize=12)
+        ax.set_ylabel("Value", fontsize=12)
+        if title:
+            ax.set_title(title, fontsize=14, fontweight="bold")
 
-    ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
-    ax.xaxis.set_major_locator(mdates.YearLocator(2))
-    plt.xticks(rotation=45)
+        ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
+        ax.xaxis.set_major_locator(mdates.YearLocator(2))
+        plt.xticks(rotation=45)
 
-    plt.tight_layout()
-    plt.savefig(output_path)
-    plt.close()
+        plt.tight_layout()
+        plt.savefig(output_path)
+        plt.close()
 
 
 def plot_forecasts(
@@ -57,47 +58,48 @@ def plot_forecasts(
     title: str = "Forecast Comparison",
 ) -> None:
     """Plot historical data with forecast overlays."""
-    fig, ax = plt.subplots(figsize=(12, 6))
+    if plot:
+        fig, ax = plt.subplots(figsize=(12, 6))
 
     # Plot historical
-    ax.plot(
-        historical["ds"],
-        historical["y"],
-        label="Historical",
-        linewidth=2,
-        color="steelblue",
-    )
-
-    # Plot forecasts by model
-    model_colors = {
-        "AutoARIMA": "coral",
-        "SeasonalNaive": "forestgreen",
-        "NHITS": "purple",
-    }
-
-    for model in forecasts["model"].unique():
-        model_forecast = forecasts[forecasts["model"] == model].sort_values("ds")
         ax.plot(
-            model_forecast["ds"],
-            model_forecast["y"],
-            label=f"{model} Forecast",
-            linestyle="--",
-            linewidth=1.5,
-            color=model_colors.get(model, "gray"),
-            alpha=0.8,
+            historical["ds"],
+            historical["y"],
+            label="Historical",
+            linewidth=2,
+            color="steelblue",
         )
 
-    ax.set_xlabel("Date", fontsize=12)
-    ax.set_ylabel("Value", fontsize=12)
-    ax.set_title(title, fontsize=14, fontweight="bold")
-    ax.legend(loc="best", frameon=True)
+    # Plot forecasts by model
+        model_colors = {
+            "AutoARIMA": "coral",
+            "SeasonalNaive": "forestgreen",
+            "NHITS": "purple",
+        }
 
-    ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m"))
-    plt.xticks(rotation=45)
+        for model in forecasts["model"].unique():
+            model_forecast = forecasts[forecasts["model"] == model].sort_values("ds")
+            ax.plot(
+                model_forecast["ds"],
+                model_forecast["y"],
+                label=f"{model} Forecast",
+                linestyle="--",
+                linewidth=1.5,
+                color=model_colors.get(model, "gray"),
+                alpha=0.8,
+            )
 
-    plt.tight_layout()
-    plt.savefig(output_path)
-    plt.close()
+        ax.set_xlabel("Date", fontsize=12)
+        ax.set_ylabel("Value", fontsize=12)
+        ax.set_title(title, fontsize=14, fontweight="bold")
+        ax.legend(loc="best", frameon=True)
+
+        ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m"))
+        plt.xticks(rotation=45)
+
+        plt.tight_layout()
+        plt.savefig(output_path)
+        plt.close()
 
 
 def plot_cross_domain_comparison(
@@ -107,55 +109,56 @@ def plot_cross_domain_comparison(
     output_path: Path,
 ) -> None:
     """Create a multi-panel comparison across domains."""
-    fig, axes = plt.subplots(3, 1, figsize=(12, 10), sharex=True)
+    if plot:
+        fig, axes = plt.subplots(3, 1, figsize=(12, 10), sharex=True)
 
     # Commodities
-    for series_id in commodities["unique_id"].unique():
-        subset = commodities[commodities["unique_id"] == series_id].sort_values("ds")
-        axes[0].plot(
-            subset["ds"],
-            subset["y"],
-            label=series_id.replace("_", " ").title(),
-            linewidth=1.5,
-        )
-    axes[0].set_ylabel("Commodities", fontsize=12, fontweight="bold")
-    axes[0].legend(loc="best")
-    axes[0].set_title("Commodities", fontsize=13)
+        for series_id in commodities["unique_id"].unique():
+            subset = commodities[commodities["unique_id"] == series_id].sort_values("ds")
+            axes[0].plot(
+                subset["ds"],
+                subset["y"],
+                label=series_id.replace("_", " ").title(),
+                linewidth=1.5,
+            )
+        axes[0].set_ylabel("Commodities", fontsize=12, fontweight="bold")
+        axes[0].legend(loc="best")
+        axes[0].set_title("Commodities", fontsize=13)
 
     # Culture
-    for series_id in culture["unique_id"].unique():
-        subset = culture[culture["unique_id"] == series_id].sort_values("ds")
-        axes[1].plot(
-            subset["ds"],
-            subset["y"],
-            label=series_id.replace("_", " ").title(),
-            linewidth=1.5,
-        )
-    axes[1].set_ylabel("Culture", fontsize=12, fontweight="bold")
-    axes[1].legend(loc="best")
-    axes[1].set_title("Cultural Indicators", fontsize=13)
+        for series_id in culture["unique_id"].unique():
+            subset = culture[culture["unique_id"] == series_id].sort_values("ds")
+            axes[1].plot(
+                subset["ds"],
+                subset["y"],
+                label=series_id.replace("_", " ").title(),
+                linewidth=1.5,
+            )
+        axes[1].set_ylabel("Culture", fontsize=12, fontweight="bold")
+        axes[1].legend(loc="best")
+        axes[1].set_title("Cultural Indicators", fontsize=13)
 
     # Macro
-    for series_id in macro["unique_id"].unique():
-        subset = macro[macro["unique_id"] == series_id].sort_values("ds")
-        axes[2].plot(
-            subset["ds"],
-            subset["y"],
-            label=series_id.replace("_", " ").title(),
-            linewidth=1.5,
-        )
-    axes[2].set_ylabel("Macro", fontsize=12, fontweight="bold")
-    axes[2].set_xlabel("Date", fontsize=12)
-    axes[2].legend(loc="best")
-    axes[2].set_title("Macroeconomic Indicators", fontsize=13)
+        for series_id in macro["unique_id"].unique():
+            subset = macro[macro["unique_id"] == series_id].sort_values("ds")
+            axes[2].plot(
+                subset["ds"],
+                subset["y"],
+                label=series_id.replace("_", " ").title(),
+                linewidth=1.5,
+            )
+        axes[2].set_ylabel("Macro", fontsize=12, fontweight="bold")
+        axes[2].set_xlabel("Date", fontsize=12)
+        axes[2].legend(loc="best")
+        axes[2].set_title("Macroeconomic Indicators", fontsize=13)
 
-    for ax in axes:
-        ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
-        ax.xaxis.set_major_locator(mdates.YearLocator(2))
+        for ax in axes:
+            ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
+            ax.xaxis.set_major_locator(mdates.YearLocator(2))
 
-    plt.tight_layout()
-    plt.savefig(output_path)
-    plt.close()
+        plt.tight_layout()
+        plt.savefig(output_path)
+        plt.close()
 
 
 def plot_forecast_uncertainty(
@@ -167,50 +170,51 @@ def plot_forecast_uncertainty(
     title: str = "Forecast with Uncertainty",
 ) -> None:
     """Plot forecasts with confidence intervals."""
-    fig, ax = plt.subplots(figsize=(12, 6))
+    if plot:
+        fig, ax = plt.subplots(figsize=(12, 6))
 
     # Historical
-    ax.plot(
-        historical["ds"],
-        historical["y"],
-        label="Historical",
-        linewidth=2,
-        color="steelblue",
-    )
-
-    # Forecast mean
-    ax.plot(
-        forecast_mean["ds"],
-        forecast_mean["y"],
-        label="Forecast",
-        linestyle="--",
-        linewidth=2,
-        color="coral",
-    )
-
-    # Uncertainty bands
-    if forecast_lower is not None and forecast_upper is not None:
-        ax.fill_between(
-            forecast_mean["ds"],
-            forecast_lower["y"],
-            forecast_upper["y"],
-            alpha=0.3,
-            color="coral",
-            label="95% Confidence Interval",
+        ax.plot(
+            historical["ds"],
+            historical["y"],
+            label="Historical",
+            linewidth=2,
+            color="steelblue",
         )
 
-    ax.set_xlabel("Date", fontsize=12)
-    ax.set_ylabel("Value", fontsize=12)
-    ax.set_title(title, fontsize=14, fontweight="bold")
-    ax.legend(loc="best")
+    # Forecast mean
+        ax.plot(
+            forecast_mean["ds"],
+            forecast_mean["y"],
+            label="Forecast",
+            linestyle="--",
+            linewidth=2,
+            color="coral",
+        )
 
-    ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m"))
-    plt.xticks(rotation=45)
+    # Uncertainty bands
+        if forecast_lower is not None and forecast_upper is not None:
+            ax.fill_between(
+                forecast_mean["ds"],
+                forecast_lower["y"],
+                forecast_upper["y"],
+                alpha=0.3,
+                color="coral",
+                label="95% Confidence Interval",
+            )
 
-    plt.tight_layout()
-    if output_path:
-        plt.savefig(output_path)
-    plt.close()
+        ax.set_xlabel("Date", fontsize=12)
+        ax.set_ylabel("Value", fontsize=12)
+        ax.set_title(title, fontsize=14, fontweight="bold")
+        ax.legend(loc="best")
+
+        ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m"))
+        plt.xticks(rotation=45)
+
+        plt.tight_layout()
+        if output_path:
+            plt.savefig(output_path)
+        plt.close()
 
 
 def parse_args() -> argparse.Namespace:
