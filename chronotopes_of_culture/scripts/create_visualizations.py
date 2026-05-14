@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import signalplot
 import argparse
 from pathlib import Path
 
@@ -18,17 +19,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 # Set publication-quality style
 plt.style.use("seaborn-v0_8-whitegrid")
-plt.rcParams.update(
-    {
-        "font.family": "serif",
-        "font.size": 11,
-        "figure.dpi": 300,
-        "savefig.dpi": 300,
-        "savefig.bbox": "tight",
-        "axes.spines.top": False,
-        "axes.spines.right": False,
-    }
-)
+signalplot.apply(font_family='serif')
 
 
 def plot_time_series(df: pd.DataFrame, output_path: Path, title: str = None, plot: bool = False) -> None:
