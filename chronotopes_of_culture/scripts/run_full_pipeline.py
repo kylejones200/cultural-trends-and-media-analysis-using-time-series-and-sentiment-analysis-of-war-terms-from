@@ -21,7 +21,7 @@ def run_command(cmd: list[str], description: str) -> bool:
 
     result = subprocess.run(cmd, capture_output=False)
     if result.returncode != 0:
-        logger.error(f"✗ {description} failed with return code {result.returncode}")
+        logger.error(f"✗ {description} failed with return code {result.returncode}", exc_info=True)
         return False
     logger.info(f"✓ {description} completed successfully")
     return True
@@ -75,7 +75,7 @@ def main() -> None:
             steps_completed += 1
         else:
             steps_failed += 1
-            logger.error("Warning: Data collection failed, but continuing...")
+            logger.error("Warning: Data collection failed, but continuing...", exc_info=True)
     else:
         logger.info("Skipping data collection (using existing data)")
         steps_completed += 1
@@ -93,7 +93,7 @@ def main() -> None:
         steps_completed += 1
     else:
         steps_failed += 1
-        logger.error("Error: Dataset building failed. Cannot continue.")
+        logger.error("Error: Dataset building failed. Cannot continue.", exc_info=True)
         sys.exit(1)
 
     # Step 3: Run Forecasts
@@ -113,7 +113,7 @@ def main() -> None:
             steps_completed += 1
         else:
             steps_failed += 1
-            logger.error("Warning: Forecasting failed, but continuing...")
+            logger.error("Warning: Forecasting failed, but continuing...", exc_info=True)
     else:
         logger.info("Skipping forecasting")
         steps_completed += 1
@@ -137,7 +137,7 @@ def main() -> None:
             steps_completed += 1
         else:
             steps_failed += 1
-            logger.error("Warning: Visualization generation failed")
+            logger.error("Warning: Visualization generation failed", exc_info=True)
     else:
         logger.info("Skipping visualization")
         steps_completed += 1
@@ -163,12 +163,12 @@ def main() -> None:
     # Summary
     logger.info("=== Pipeline Summary ===")
     logger.info(f"Steps completed: {steps_completed}")
-    logger.error(f"Steps failed: {steps_failed}")
+    logger.error(f"Steps failed: {steps_failed}", exc_info=True)
 
     if steps_failed == 0:
         logger.info("\n✓ Pipeline completed successfully!")
     else:
-        logger.error(f"\n⚠ Pipeline completed with {steps_failed} warning(s)")
+        logger.error(f"\n⚠ Pipeline completed with {steps_failed} warning(s, exc_info=True)")
 
 
 if __name__ == "__main__":

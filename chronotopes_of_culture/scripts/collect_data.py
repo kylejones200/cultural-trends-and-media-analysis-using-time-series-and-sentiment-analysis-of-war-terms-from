@@ -42,7 +42,7 @@ def fetch_gold_prices(
             gold = gold[["unique_id", "ds", "y"]].dropna()
             return gold
     except Exception as e:
-        logger.error(f"FRED gold fetch failed: {e}, trying yfinance...")
+        logger.error(f"FRED gold fetch failed: {e}, trying yfinance...", exc_info=True)
 
     # Fallback to yfinance
     try:
@@ -58,7 +58,7 @@ def fetch_gold_prices(
             gold = gold.set_index("ds").resample("MS").last().reset_index()
             return gold
     except Exception as e:
-        logger.error(f"yfinance gold fetch failed: {e}")
+        logger.error(f"yfinance gold fetch failed: {e}", exc_info=True)
 
     raise RuntimeError("Could not fetch gold prices from any source")
 
@@ -80,7 +80,7 @@ def fetch_oil_prices(
             oil = oil[["unique_id", "ds", "y"]].dropna()
             return oil
     except Exception as e:
-        logger.error(f"FRED oil fetch failed: {e}, trying yfinance...")
+        logger.error(f"FRED oil fetch failed: {e}, trying yfinance...", exc_info=True)
 
     # Fallback to yfinance
     try:
@@ -96,7 +96,7 @@ def fetch_oil_prices(
             oil = oil.set_index("ds").resample("MS").last().reset_index()
             return oil
     except Exception as e:
-        logger.error(f"yfinance oil fetch failed: {e}")
+        logger.error(f"yfinance oil fetch failed: {e}", exc_info=True)
 
     raise RuntimeError("Could not fetch oil prices from any source")
 
@@ -118,7 +118,7 @@ def fetch_cpi(start_date: str = "2010-01-01", end_date: str = None) -> pd.DataFr
             cpi = cpi[["unique_id", "ds", "y"]].dropna()
             return cpi
     except Exception as e:
-        logger.error(f"FRED CPI fetch failed: {e}")
+        logger.error(f"FRED CPI fetch failed: {e}", exc_info=True)
         raise
 
     raise RuntimeError("Could not fetch CPI data")
@@ -140,7 +140,7 @@ def fetch_sentiment(
             sentiment = sentiment[["unique_id", "ds", "y"]].dropna()
             return sentiment
     except Exception as e:
-        logger.error(f"FRED sentiment fetch failed: {e}")
+        logger.error(f"FRED sentiment fetch failed: {e}", exc_info=True)
         # Create synthetic sentiment based on economic indicators
         logger.info("Creating synthetic sentiment index...")
         dates = pd.date_range(start=start_date, end=end_date, freq="MS")
@@ -291,7 +291,7 @@ def main() -> None:
             collected.append(("gold", gold_path))
             logger.info(f"✓ Gold prices saved: {len(gold)} records")
         except Exception as e:
-            logger.error(f"✗ Gold prices failed: {e}")
+            logger.error(f"✗ Gold prices failed: {e}", exc_info=True)
 
     if "oil" in datasets_to_collect:
         logger.info("Collecting crude oil prices...")
@@ -303,7 +303,7 @@ def main() -> None:
             collected.append(("oil", oil_path))
             logger.info(f"✓ Oil prices saved: {len(oil)} records")
         except Exception as e:
-            logger.error(f"✗ Oil prices failed: {e}")
+            logger.error(f"✗ Oil prices failed: {e}", exc_info=True)
 
     if "cpi" in datasets_to_collect:
         logger.info("Collecting CPI inflation data...")
@@ -315,7 +315,7 @@ def main() -> None:
             collected.append(("cpi", cpi_path))
             logger.info(f"✓ CPI data saved: {len(cpi)} records")
         except Exception as e:
-            logger.error(f"✗ CPI data failed: {e}")
+            logger.error(f"✗ CPI data failed: {e}", exc_info=True)
 
     if "sentiment" in datasets_to_collect:
         logger.info("Collecting sentiment index...")
@@ -327,7 +327,7 @@ def main() -> None:
             collected.append(("sentiment", sentiment_path))
             logger.info(f"✓ Sentiment index saved: {len(sentiment)} records")
         except Exception as e:
-            logger.error(f"✗ Sentiment index failed: {e}")
+            logger.error(f"✗ Sentiment index failed: {e}", exc_info=True)
 
     if "film" in datasets_to_collect:
         logger.info("Generating film release data...")
@@ -339,7 +339,7 @@ def main() -> None:
             collected.append(("film", film_path))
             logger.info(f"✓ Film releases saved: {len(film)} records")
         except Exception as e:
-            logger.error(f"✗ Film releases failed: {e}")
+            logger.error(f"✗ Film releases failed: {e}", exc_info=True)
 
     if "book" in datasets_to_collect:
         logger.info("Generating book sales data...")
@@ -351,7 +351,7 @@ def main() -> None:
             collected.append(("book", book_path))
             logger.info(f"✓ Book sales saved: {len(book)} records")
         except Exception as e:
-            logger.error(f"✗ Book sales failed: {e}")
+            logger.error(f"✗ Book sales failed: {e}", exc_info=True)
 
     if "amtrak" in datasets_to_collect:
         logger.info("Loading Amtrak ridership data...")
@@ -365,7 +365,7 @@ def main() -> None:
             collected.append(("amtrak", amtrak_path))
             logger.info(f"✓ Amtrak data saved: {len(amtrak)} records")
         except Exception as e:
-            logger.error(f"✗ Amtrak data failed: {e}")
+            logger.error(f"✗ Amtrak data failed: {e}", exc_info=True)
 
     logger.info(f"\n✓ Data collection complete. Collected {len(collected)} datasets:")
     for name, path in collected:

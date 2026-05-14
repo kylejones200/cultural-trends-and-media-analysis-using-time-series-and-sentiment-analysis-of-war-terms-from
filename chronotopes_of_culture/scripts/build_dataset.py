@@ -53,7 +53,7 @@ def main() -> None:
             df = load_source(name, meta)
             df["domain"] = domain
             df["series_name"] = name
-            frames.append(df)
+            pd.concat([frames, df])
 
     if not frames:
         raise RuntimeError(

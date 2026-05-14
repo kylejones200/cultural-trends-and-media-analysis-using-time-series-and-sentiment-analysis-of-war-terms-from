@@ -15,13 +15,13 @@ def calculate_sentiment_score(text_data: pd.Series, positive_words: list, negati
     scores = []
     for text in text_data:
         if pd.isna(text):
-            scores.append(0)
+            pd.concat([scores, 0])
             continue
         text_lower = str(text).lower()
         positive_count = sum(1 for word in positive_words if word in text_lower)
         negative_count = sum(1 for word in negative_words if word in text_lower)
         score = (positive_count - negative_count) / max(len(text_lower.split()), 1)
-        scores.append(score)
+        pd.concat([scores, score])
     return pd.Series(scores, index=text_data.index)
 
 def plot_sentiment_trend(sentiment: pd.Series, title: str, output_path: Path, plot: bool = False):
