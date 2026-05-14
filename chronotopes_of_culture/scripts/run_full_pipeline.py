@@ -16,10 +16,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 def run_command(cmd: list[str], description: str) -> bool:
     """Run a command and return success status."""
-    logger.info(f"\n{'='*60}")
-    logger.info(f"Step: {description}")
+    logger.info("=== Step: {description} ===")
     logger.info(f"Command: {' '.join(cmd)}")
-    logger.info(f"{'='*60}\n")
 
     result = subprocess.run(cmd, capture_output=False)
     if result.returncode != 0:
@@ -163,9 +161,7 @@ def main() -> None:
         logger.info("Skipping narrative brief (no forecast file found)")
 
     # Summary
-    logger.info(f"\n{'='*60}")
-    logger.info("Pipeline Summary")
-    logger.info(f"{'='*60}")
+    logger.info("=== Pipeline Summary ===")
     logger.info(f"Steps completed: {steps_completed}")
     logger.error(f"Steps failed: {steps_failed}")
 
