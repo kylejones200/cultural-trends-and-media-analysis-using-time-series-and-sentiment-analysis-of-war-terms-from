@@ -1,14 +1,14 @@
 # Forecasting Cultural Futures: A Time Series Approach to Chronotopes of Culture
 
-**Authors:** [Author Names]  
-**Affiliation:** [Institution]  
-**Correspondence:** [Email]
+Authors: [Author Names]  
+Affiliation: [Institution]  
+Correspondence: [Email]
 
 ## Abstract
 
 This article presents a computational framework for forecasting cultural futures by integrating time series analysis of economic, cultural, and infrastructural indicators. We apply state-of-the-art forecasting models—including AutoARIMA, Seasonal Naive, and neural architectures (NHITS)—to a curated dataset spanning commodities (gold, crude oil), cultural production (film releases, book sales), macroeconomic indicators (inflation, consumer sentiment), and infrastructure (Amtrak ridership). Our approach demonstrates how quantitative forecasting methods can inform scenario planning and narrative synthesis in digital humanities research. We generate 24-month forecasts for each series and interpret their implications for understanding cultural change. The results reveal divergent trajectories across domains, suggesting that cultural indicators may decouple from traditional economic signals in the near future. We discuss the methodological contributions, limitations, and potential applications of this approach for interdisciplinary research at the intersection of computational methods and cultural studies.
 
-**Keywords:** time series forecasting, digital humanities, cultural analytics, scenario planning, computational methods
+Keywords: time series forecasting, digital humanities, cultural analytics, scenario planning, computational methods
 
 ---
 
@@ -60,20 +60,16 @@ Scenario planning has long been used in strategic planning and futures studies (
 
 We curated seven time series spanning four domains:
 
-**Commodities:**
-- Gold prices (monthly, FRED/yfinance)
+Commodities:- Gold prices (monthly, FRED/yfinance)
 - Crude oil prices (monthly, FRED/yfinance)
 
-**Culture:**
-- Film releases (monthly, synthetic based on industry patterns)
+Culture:- Film releases (monthly, synthetic based on industry patterns)
 - Book sales index (monthly, synthetic based on industry patterns)
 
-**Macro:**
-- CPI inflation rate (year-over-year, FRED)
+Macro:- CPI inflation rate (year-over-year, FRED)
 - Consumer sentiment index (monthly, FRED or synthetic)
 
-**Infrastructure:**
-- Amtrak ridership (monthly, aggregated from station-level data)
+Infrastructure:- Amtrak ridership (monthly, aggregated from station-level data)
 
 All series were standardized to monthly frequency and harmonized to a common schema: `unique_id`, `ds` (date), `y` (value).
 
@@ -81,17 +77,17 @@ All series were standardized to monthly frequency and harmonized to a common sch
 
 We applied three forecasting models to each series:
 
-1. **AutoARIMA** (StatsForecast): Automatically selects optimal ARIMA parameters using information criteria
-2. **SeasonalNaive** (StatsForecast): Baseline model that forecasts using the value from the same season in the previous year
-3. **NHITS** (NeuralForecast): Neural Hierarchical Interpolation for Time Series, a state-of-the-art deep learning model
+1. AutoARIMA (StatsForecast): Automatically selects optimal ARIMA parameters using information criteria
+2. SeasonalNaive (StatsForecast): Baseline model that forecasts using the value from the same season in the previous year
+3. NHITS (NeuralForecast): Neural Hierarchical Interpolation for Time Series, a state-of-the-art deep learning model
 
 ### 3.3 Evaluation
 
 Forecasts were generated for a 24-month horizon. Model performance was evaluated using:
 
-- **sMAPE** (symmetric Mean Absolute Percentage Error)
-- **MAE** (Mean Absolute Error)
-- **RMSE** (Root Mean Squared Error)
+- sMAPE (symmetric Mean Absolute Percentage Error)
+- MAE (Mean Absolute Error)
+- RMSE (Root Mean Squared Error)
 
 ### 3.4 Narrative Synthesis
 
@@ -115,44 +111,37 @@ The dataset spans [DATE RANGE] with [N] observations per series. Summary statist
 
 #### 4.2.1 Commodities
 
-**Gold Prices:**
-- Historical trend: [DESCRIPTION]
+Gold Prices:- Historical trend: [DESCRIPTION]
 - Forecast: [MODEL] predicts [TREND] over 24 months
 - sMAPE: [VALUE]%
 
-**Crude Oil:**
-- Historical trend: [DESCRIPTION]
+Crude Oil:- Historical trend: [DESCRIPTION]
 - Forecast: [MODEL] predicts [TREND] over 24 months
 - sMAPE: [VALUE]%
 
 #### 4.2.2 Cultural Indicators
 
-**Film Releases:**
-- Historical trend: [DESCRIPTION]
+Film Releases:- Historical trend: [DESCRIPTION]
 - Forecast: [MODEL] predicts [TREND] over 24 months
 - sMAPE: [VALUE]%
 
-**Book Sales:**
-- Historical trend: [DESCRIPTION]
+Book Sales:- Historical trend: [DESCRIPTION]
 - Forecast: [MODEL] predicts [TREND] over 24 months
 - sMAPE: [VALUE]%
 
 #### 4.2.3 Macroeconomic Indicators
 
-**Inflation (CPI):**
-- Historical trend: [DESCRIPTION]
+Inflation (CPI):- Historical trend: [DESCRIPTION]
 - Forecast: [MODEL] predicts [TREND] over 24 months
 - sMAPE: [VALUE]%
 
-**Consumer Sentiment:**
-- Historical trend: [DESCRIPTION]
+Consumer Sentiment:- Historical trend: [DESCRIPTION]
 - Forecast: [MODEL] predicts [TREND] over 24 months
 - sMAPE: [VALUE]%
 
 #### 4.2.4 Infrastructure
 
-**Amtrak Ridership:**
-- Historical trend: [DESCRIPTION]
+Amtrak Ridership:- Historical trend: [DESCRIPTION]
 - Forecast: [MODEL] predicts [TREND] over 24 months
 - sMAPE: [VALUE]%
 
@@ -190,13 +179,13 @@ The dataset spans [DATE RANGE] with [N] observations per series. Summary statist
 
 Several limitations should be noted:
 
-1. **Data Quality:** Some cultural indicators (film releases, book sales) are synthetic. Real-world data collection would strengthen the analysis.
+1. Data Quality: Some cultural indicators (film releases, book sales) are synthetic. Real-world data collection would strengthen the analysis.
 
-2. **Model Assumptions:** Forecasting models assume stationarity and may not capture structural breaks or regime changes.
+2. Model Assumptions: Forecasting models assume stationarity and may not capture structural breaks or regime changes.
 
-3. **Temporal Scope:** 24-month forecasts are relatively short-term. Longer horizons would require different modeling approaches.
+3. Temporal Scope: 24-month forecasts are relatively short-term. Longer horizons would require different modeling approaches.
 
-4. **Causality:** This analysis is predictive, not causal. We do not claim that economic indicators cause cultural changes.
+4. Causality: This analysis is predictive, not causal. We do not claim that economic indicators cause cultural changes.
 
 ### 5.4 Future Directions
 
@@ -245,9 +234,9 @@ van der Heijden, K. (2005). *Scenarios: The art of strategic conversation*. John
 
 ### A.1 Data Sources
 
-- **FRED (Federal Reserve Economic Data):** Gold prices (GOLDAMGBD228NLBM), Oil prices (DCOILBRENTEU), CPI (CPIAUCSL), Consumer Sentiment (UMCSENT)
-- **yfinance:** Alternative source for gold and oil prices
-- **Amtrak:** Aggregated from station-level ridership data
+- FRED (Federal Reserve Economic Data): Gold prices (GOLDAMGBD228NLBM), Oil prices (DCOILBRENTEU), CPI (CPIAUCSL), Consumer Sentiment (UMCSENT)
+- yfinance: Alternative source for gold and oil prices
+- Amtrak: Aggregated from station-level ridership data
 
 ### A.2 Data Availability
 

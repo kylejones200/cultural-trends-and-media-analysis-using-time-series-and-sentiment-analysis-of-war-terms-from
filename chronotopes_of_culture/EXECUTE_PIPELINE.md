@@ -57,8 +57,8 @@ This will execute all steps automatically.
 
 Once the pipeline completes:
 
-1. **Review forecast outputs** in `data/forecasts.parquet`
-2. **Check visualizations** in `reports/figures/`
-3. **Read narrative brief** in `reports/narrative_brief.md`
-4. **Update article** (`reports/article_draft.md`) with actual results from the forecasts
+1. Review forecast outputs in `data/forecasts.parquet`
+2. Check visualizations in `reports/figures/`
+3. Read narrative brief in `reports/narrative_brief.md`
+4. Update article (`reports/article_draft.md`) with actual results from the forecasts
 

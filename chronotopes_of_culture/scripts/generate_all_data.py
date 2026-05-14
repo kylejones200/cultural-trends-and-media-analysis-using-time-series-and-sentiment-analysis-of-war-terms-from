@@ -100,24 +100,23 @@ def generate_amtrak_data():
         # Filter to 2010 onwards
         df_agg = df_agg[df_agg["ds"] >= "2010-01-01"]
         return df_agg
-    else:
-        # Generate synthetic if file doesn't exist
-        dates = pd.date_range(
-            start="2010-01-01", end=datetime.now().strftime("%Y-%m-%d"), freq="MS"
-        )
-        np.random.seed(45)
-        base = 3000000
-        trend = np.linspace(0, 500000, len(dates))
-        seasonal = 200000 * np.sin(2 * np.pi * (np.arange(len(dates)) - 6) / 12)
-        noise = np.random.randn(len(dates)) * 100000
-        # COVID dip in 2020
-        covid_dip = np.where(
-            (dates >= "2020-03-01") & (dates < "2021-06-01"), -1500000, 0
-        )
-        ridership = base + trend + seasonal + noise + covid_dip
-        ridership = np.maximum(ridership, 1000000)
+    # Generate synthetic if file doesn't exist
+    dates = pd.date_range(
+        start="2010-01-01", end=datetime.now().strftime("%Y-%m-%d"), freq="MS"
+    )
+    np.random.seed(45)
+    base = 3000000
+    trend = np.linspace(0, 500000, len(dates))
+    seasonal = 200000 * np.sin(2 * np.pi * (np.arange(len(dates)) - 6) / 12)
+    noise = np.random.randn(len(dates)) * 100000
+    # COVID dip in 2020
+    covid_dip = np.where(
+        (dates >= "2020-03-01") & (dates < "2021-06-01"), -1500000, 0
+    )
+    ridership = base + trend + seasonal + noise + covid_dip
+    ridership = np.maximum(ridership, 1000000)
 
-        return pd.DataFrame({"unique_id": "amtrak", "ds": dates, "y": ridership})
+    return pd.DataFrame({"unique_id": "amtrak", "ds": dates, "y": ridership})
 
 
 def main():
@@ -158,7 +157,7 @@ def main():
     logger.info("  Generating sentiment index...")
     try:
         sentiment = fetch_sentiment()
-    except:
+    except Exception:
         # Fallback synthetic
         dates = pd.date_range(
             start="2010-01-01", end=datetime.now().strftime("%Y-%m-%d"), freq="MS"

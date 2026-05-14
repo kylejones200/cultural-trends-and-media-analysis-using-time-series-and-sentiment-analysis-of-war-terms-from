@@ -9,10 +9,10 @@ This whitepaper sketches an interdisciplinary framework for anticipating cultura
 3. What storytelling strategies best translate numerical forecasts into accessible cultural narratives?
 
 ## Methods Overview
-- **Data assemblage:** curated via `data_catalog.yaml`, harmonized with `build_dataset.py`.
-- **Modeling pipeline:** leverages StatsForecast, NeuralForecast, and custom ensemble templates from the broader repository.
-- **Scenario analysis:** runs multiple “futures” varying macro covariates.
-- **Narrative synthesis:** automated briefs (`evaluate_narratives.py`) followed by human-curated essays and dashboards.
+- Data assemblage: curated via `data_catalog.yaml`, harmonized with `build_dataset.py`.
+- Modeling pipeline: leverages StatsForecast, NeuralForecast, and custom ensemble templates from the broader repository.
+- Scenario analysis: runs multiple “futures” varying macro covariates.
+- Narrative synthesis: automated briefs (`evaluate_narratives.py`) followed by human-curated essays and dashboards.
 
 ## Deliverables
 - Peer-reviewed article targeting journals such as *Journal of Cultural Analytics* or *New Media & Society*.

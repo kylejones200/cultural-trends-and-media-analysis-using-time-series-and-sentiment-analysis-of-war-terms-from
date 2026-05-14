@@ -210,26 +210,25 @@ def load_amtrak_data() -> pd.DataFrame:
     if amtrak_path.exists():
         df = pd.read_csv(amtrak_path)
         return df
-    else:
-        # Try to load from shared data directory
-        shared_path = (
-            project_root.parent.parent
-            / "data"
-            / "amtrak_ridership_time_series_data.csv"
-        )
-        if shared_path.exists():
-            df = pd.read_csv(shared_path)
-            # Aggregate to monthly if needed
-            if "Year" in df.columns:
-                df["ds"] = pd.to_datetime(df["Year"])
-                df_agg = df.groupby("ds")["Ridership"].sum().reset_index()
-                df_agg["unique_id"] = "amtrak"
-                df_agg.columns = ["ds", "y", "unique_id"]
-                df_agg = df_agg[["unique_id", "ds", "y"]]
-                return df_agg
-        raise FileNotFoundError(
-            f"Amtrak data not found at {amtrak_path} or {shared_path}"
-        )
+    # Try to load from shared data directory
+    shared_path = (
+        project_root.parent.parent
+        / "data"
+        / "amtrak_ridership_time_series_data.csv"
+    )
+    if shared_path.exists():
+        df = pd.read_csv(shared_path)
+        # Aggregate to monthly if needed
+        if "Year" in df.columns:
+            df["ds"] = pd.to_datetime(df["Year"])
+            df_agg = df.groupby("ds")["Ridership"].sum().reset_index()
+            df_agg["unique_id"] = "amtrak"
+            df_agg.columns = ["ds", "y", "unique_id"]
+            df_agg = df_agg[["unique_id", "ds", "y"]]
+            return df_agg
+    raise FileNotFoundError(
+        f"Amtrak data not found at {amtrak_path} or {shared_path}"
+    )
 
 
 def parse_args() -> argparse.Namespace:

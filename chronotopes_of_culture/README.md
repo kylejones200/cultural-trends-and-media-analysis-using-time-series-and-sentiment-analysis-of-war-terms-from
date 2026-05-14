@@ -12,9 +12,9 @@ Forecasting cultural futures by weaving together quantitative time-series models
 
 ## Vision
 
-1. **Curate temporal datasets** that capture cultural, economic, and environmental signals (commodities, sentiment, cultural production metrics, macro indicators).
-2. **Forecast multiple futures** using classical, machine learning, and neural approaches (leveraging the template suite in this repo).
-3. **Interpret and narrate** the results through essays, dashboards, and speculative scenarios aimed at scholarly and public audiences.
+1. Curate temporal datasets that capture cultural, economic, and environmental signals (commodities, sentiment, cultural production metrics, macro indicators).
+2. Forecast multiple futures using classical, machine learning, and neural approaches (leveraging the template suite in this repo).
+3. Interpret and narrate the results through essays, dashboards, and speculative scenarios aimed at scholarly and public audiences.
 
 ## Getting Started
 
@@ -80,11 +80,11 @@ Then open the notebooks in `notebooks/` to explore data stories and draft interp
 - [ ] Article writing (draft exists, needs results)
 
 ### 📋 Next Steps
-1. **Run data collection**: Execute `collect_data.py` to fetch real datasets
-2. **Run forecasts**: Execute `run_forecasts.py` to generate predictions
-3. **Generate figures**: Execute `create_visualizations.py` for publication-quality charts
-4. **Complete article**: Fill in results sections in `reports/article_draft.md`
-5. **Submit for review**: Target journals: *Journal of Cultural Analytics*, *Digital Scholarship in the Humanities*
+1. Run data collection: Execute `collect_data.py` to fetch real datasets
+2. Run forecasts: Execute `run_forecasts.py` to generate predictions
+3. Generate figures: Execute `create_visualizations.py` for publication-quality charts
+4. Complete article: Fill in results sections in `reports/article_draft.md`
+5. Submit for review: Target journals: *Journal of Cultural Analytics*, *Digital Scholarship in the Humanities*
 
 See `COMPLETION_PLAN.md` for detailed timeline and methodology.
 

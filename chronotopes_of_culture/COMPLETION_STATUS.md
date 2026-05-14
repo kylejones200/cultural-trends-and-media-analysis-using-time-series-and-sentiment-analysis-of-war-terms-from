@@ -44,10 +44,10 @@
 These tasks require running the scripts (see `EXECUTE_PIPELINE.md`):
 
 ### 1. Data Generation
-**Status**: Scripts ready, needs execution
-**Action**: Run `python3 scripts/generate_all_data.py` or `python3 scripts/collect_data.py --datasets all`
+Status: Scripts ready, needs execution
+Action: Run `python3 scripts/generate_all_data.py` or `python3 scripts/collect_data.py --datasets all`
 
-**Expected Output**:
+Expected Output:
 - `data/external/commodities/gold_prices.csv`
 - `data/external/commodities/crude_oil.csv`
 - `data/external/macro/cpi.csv`
@@ -57,38 +57,38 @@ These tasks require running the scripts (see `EXECUTE_PIPELINE.md`):
 - `data/intermediate/amtrak_ridership.csv`
 
 ### 2. Master Dataset Building
-**Status**: Script ready, needs execution after data generation
-**Action**: Run `python3 scripts/build_dataset.py`
+Status: Script ready, needs execution after data generation
+Action: Run `python3 scripts/build_dataset.py`
 
-**Expected Output**:
+Expected Output:
 - `data/master_dataset.parquet`
 
 ### 3. Forecasting
-**Status**: Script ready, needs execution after dataset building
-**Action**: Run `python3 scripts/run_forecasts.py --input data/master_dataset.parquet --horizon 24 --output data/forecasts.parquet`
+Status: Script ready, needs execution after dataset building
+Action: Run `python3 scripts/run_forecasts.py --input data/master_dataset.parquet --horizon 24 --output data/forecasts.parquet`
 
-**Expected Output**:
+Expected Output:
 - `data/forecasts.parquet` with forecasts from AutoARIMA, SeasonalNaive, and NHITS
 
 ### 4. Visualization Generation
-**Status**: Script ready, needs execution after forecasting
-**Action**: Run `python3 scripts/create_visualizations.py --data-dir data --forecast-file data/forecasts.parquet`
+Status: Script ready, needs execution after forecasting
+Action: Run `python3 scripts/create_visualizations.py --data-dir data --forecast-file data/forecasts.parquet`
 
-**Expected Output**:
+Expected Output:
 - `reports/figures/*.png` - Individual time series plots
 - `reports/figures/cross_domain_comparison.png`
 - `reports/figures/*_forecasts.png` - Forecast visualizations
 
 ### 5. Narrative Brief Generation
-**Status**: Script ready, needs execution after forecasting
-**Action**: Run `python3 scripts/evaluate_narratives.py --forecast-input data/forecasts.parquet --output reports/narrative_brief.md`
+Status: Script ready, needs execution after forecasting
+Action: Run `python3 scripts/evaluate_narratives.py --forecast-input data/forecasts.parquet --output reports/narrative_brief.md`
 
-**Expected Output**:
+Expected Output:
 - `reports/narrative_brief.md` - Narrative summary of forecasts
 
 ### 6. Article Completion
-**Status**: Draft complete, needs results populated
-**Action**: After running forecasts, populate Section 4 (Results) in `reports/article_draft.md` with:
+Status: Draft complete, needs results populated
+Action: After running forecasts, populate Section 4 (Results) in `reports/article_draft.md` with:
 - Descriptive statistics from master dataset
 - Forecast results by domain
 - Model comparison table
@@ -128,25 +128,25 @@ These tasks require running the scripts (see `EXECUTE_PIPELINE.md`):
 
 ## 🚀 Next Steps
 
-1. **Execute the pipeline** (see `EXECUTE_PIPELINE.md`):
+1. Execute the pipeline (see `EXECUTE_PIPELINE.md`):
    ```bash
    cd /Users/kylejonespatricia/time_series/WIP/chronotopes_of_culture
    python3 scripts/run_full_pipeline.py
    ```
 
-2. **Review outputs**:
+2. Review outputs:
    - Check `data/forecasts.parquet` for forecast results
    - Review `reports/figures/` for visualizations
    - Read `reports/narrative_brief.md` for narrative summary
 
-3. **Complete article**:
+3. Complete article:
    - Open `reports/article_draft.md`
    - Fill in Section 4 (Results) with actual forecast outputs
    - Add descriptive statistics
    - Complete model comparison table
    - Expand Discussion with results interpretation
 
-4. **Final polish**:
+4. Final polish:
    - Add author information
    - Complete acknowledgments
    - Format for target journal
@@ -154,11 +154,11 @@ These tasks require running the scripts (see `EXECUTE_PIPELINE.md`):
 
 ## 📝 Estimated Time to Complete
 
-- **Pipeline execution**: 20-50 minutes
-- **Article completion**: 2-4 hours
-- **Final polish**: 1-2 hours
+- Pipeline execution: 20-50 minutes
+- Article completion: 2-4 hours
+- Final polish: 1-2 hours
 
-**Total remaining time**: ~4-7 hours of focused work
+Total remaining time: ~4-7 hours of focused work
 
 ## ✨ Summary
 

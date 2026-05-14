@@ -2,13 +2,13 @@
 
 ## Current Status
 
-✅ **Infrastructure**: 100% complete
+✅ Infrastructure: 100% complete
 - All scripts exist and are ready
 - Article draft structure complete
 - Visualization scripts ready
 - Narrative generation ready
 
-❌ **Execution**: Needs to be run
+❌ Execution: Needs to be run
 - Data collection not yet executed
 - Forecasts not yet generated
 - Article needs results populated
@@ -60,18 +60,18 @@ After the pipeline runs, I will:
 
 After you execute the pipeline and it completes successfully, I will:
 
-1. **Read the forecast results** from `data/forecasts.parquet`
-2. **Calculate statistics**:
+1. Read the forecast results from `data/forecasts.parquet`
+2. Calculate statistics:
    - Descriptive stats for each series
    - Model performance metrics (sMAPE, MAE, RMSE)
    - Best model for each series
-3. **Populate the article** (`reports/article_draft.md`):
+3. Populate the article (`reports/article_draft.md`):
    - Section 4.1: Descriptive statistics with actual numbers
    - Section 4.2: Forecast results for each domain with real predictions
    - Section 4.3: Cross-domain analysis
    - Section 4.4: Model comparison table with actual metrics
    - Section 5: Discussion with interpretation of real results
-4. **Review and polish**:
+4. Review and polish:
    - Ensure all numbers are consistent
    - Add proper citations
    - Format for journal submission
@@ -95,9 +95,9 @@ After running the pipeline, these files will exist:
 
 ## Next Steps
 
-1. **You**: Install dependencies and run `python3 scripts/run_full_pipeline.py`
-2. **Me**: Once you confirm the pipeline ran successfully, I'll complete the article with real results
-3. **Final**: Review the completed article in `reports/article_draft.md`
+1. You: Install dependencies and run `python3 scripts/run_full_pipeline.py`
+2. Me: Once you confirm the pipeline ran successfully, I'll complete the article with real results
+3. Final: Review the completed article in `reports/article_draft.md`
 
 ## Notes
 
@@ -108,5 +108,5 @@ After running the pipeline, these files will exist:
 
 ---
 
-**Ready to proceed?** Install dependencies and run the pipeline, then let me know when it's complete and I'll finish the article!
+Ready to proceed? Install dependencies and run the pipeline, then let me know when it's complete and I'll finish the article!
 

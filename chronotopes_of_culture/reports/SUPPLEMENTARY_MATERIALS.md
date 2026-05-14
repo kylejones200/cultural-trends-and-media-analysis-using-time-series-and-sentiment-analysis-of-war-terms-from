@@ -36,27 +36,23 @@ See `EXECUTE_PIPELINE.md` for detailed instructions on running the complete pipe
 
 ### Primary Data Sources
 
-1. **Commodities**
-   - Gold prices: FRED API (GOLDAMGBD228NLBM) or yfinance (GC=F)
+1. Commodities   - Gold prices: FRED API (GOLDAMGBD228NLBM) or yfinance (GC=F)
    - Crude oil: FRED API (DCOILBRENTEU) or yfinance (BZ=F)
 
-2. **Macroeconomic Indicators**
-   - CPI inflation: FRED API (CPIAUCSL), year-over-year percentage change
+2. Macroeconomic Indicators   - CPI inflation: FRED API (CPIAUCSL), year-over-year percentage change
    - Consumer sentiment: FRED API (UMCSENT) or synthetic generation
 
-3. **Cultural Indicators**
-   - Film releases: Synthetic data based on industry patterns (2010-present)
+3. Cultural Indicators   - Film releases: Synthetic data based on industry patterns (2010-present)
    - Book sales: Synthetic data based on industry patterns (2010-present)
 
-4. **Infrastructure**
-   - Amtrak ridership: Aggregated from station-level data (2010-present)
+4. Infrastructure   - Amtrak ridership: Aggregated from station-level data (2010-present)
 
 ### Data Access
 
-- **FRED Data**: Available at https://fred.stlouisfed.org/ (free, no API key required)
-- **yfinance Data**: Available via Python package `yfinance` (free, public APIs)
-- **Amtrak Data**: Available in project repository at `data/amtrak_ridership_time_series_data.csv`
-- **Synthetic Data**: Generated using reproducible random seeds (see code for details)
+- FRED Data: Available at https://fred.stlouisfed.org/ (free, no API key required)
+- yfinance Data: Available via Python package `yfinance` (free, public APIs)
+- Amtrak Data: Available in project repository at `data/amtrak_ridership_time_series_data.csv`
+- Synthetic Data: Generated using reproducible random seeds (see code for details)
 
 ### Data Processing
 
@@ -76,48 +72,48 @@ To reproduce the exact datasets used in this study:
 
 ### AutoARIMA
 
-**Implementation**: StatsForecast AutoARIMA
+Implementation: StatsForecast AutoARIMA
 
-**Parameter Search Space**:
+Parameter Search Space:
 - p, q: [0, 5]
 - d: [0, 2]
 - P, Q: [0, 2]
 - D: [0, 1]
 - Seasonal period: 12 (monthly data)
 
-**Selection Criteria**: AIC (Akaike Information Criterion)
+Selection Criteria: AIC (Akaike Information Criterion)
 
-**Training**: Fit on full historical data up to forecast start date
+Training: Fit on full historical data up to forecast start date
 
 ### SeasonalNaive
 
-**Implementation**: StatsForecast SeasonalNaive
+Implementation: StatsForecast SeasonalNaive
 
-**Method**: Forecasts using value from same season in previous year
+Method: Forecasts using value from same season in previous year
 
-**Seasonal Period**: 12 months
+Seasonal Period: 12 months
 
-**Use Case**: Baseline model for comparison
+Use Case: Baseline model for comparison
 
 ### NHITS
 
-**Implementation**: NeuralForecast NHITS
+Implementation: NeuralForecast NHITS
 
-**Architecture**:
+Architecture:
 - Input size: 24 months
 - Horizon: 24 months
 - Hidden units: [512, 512, 512]
 - Number of stacks: 3
 - Number of blocks per stack: 2
 
-**Training**:
+Training:
 - Learning rate: 1e-3
 - Batch size: 32
 - Epochs: 50 (early stopping with patience=10)
 - Optimizer: Adam
 - Loss function: MAE
 
-**Hardware**: Trained on CPU (GPU optional but not required)
+Hardware: Trained on CPU (GPU optional but not required)
 
 ## D. Additional Results
 
