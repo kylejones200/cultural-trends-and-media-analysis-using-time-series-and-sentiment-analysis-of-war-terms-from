@@ -6,7 +6,6 @@ import textwrap
 
 import pandas as pd
 
-
 TEMPLATE = """# Cultural Futures Brief
 
 ## Snapshot

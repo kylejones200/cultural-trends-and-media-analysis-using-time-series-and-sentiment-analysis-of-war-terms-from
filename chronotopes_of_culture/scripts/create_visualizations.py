@@ -2,26 +2,27 @@
 
 from __future__ import annotations
 
-import signalplot
 import argparse
+import logging
 from pathlib import Path
 
-import pandas as pd
-import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+import matplotlib.pyplot as plt
+import pandas as pd
+import signalplot
 
-import logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 # Set publication-quality style
 plt.style.use("seaborn-v0_8-whitegrid")
-signalplot.apply(font_family='serif')
+signalplot.apply(font_family="serif")
 
 
-def plot_time_series(df: pd.DataFrame, output_path: Path, title: str = None, plot: bool = False) -> None:
+def plot_time_series(
+    df: pd.DataFrame, output_path: Path, title: str = None, plot: bool = False
+) -> None:
     """Plot a single time series."""
     if plot:
         fig, ax = plt.subplots(figsize=(10, 5))
@@ -51,7 +52,7 @@ def plot_forecasts(
     if plot:
         fig, ax = plt.subplots(figsize=(12, 6))
 
-    # Plot historical
+        # Plot historical
         ax.plot(
             historical["ds"],
             historical["y"],
@@ -60,7 +61,7 @@ def plot_forecasts(
             color="steelblue",
         )
 
-    # Plot forecasts by model
+        # Plot forecasts by model
         model_colors = {
             "AutoARIMA": "coral",
             "SeasonalNaive": "forestgreen",
@@ -102,9 +103,11 @@ def plot_cross_domain_comparison(
     if plot:
         fig, axes = plt.subplots(3, 1, figsize=(12, 10), sharex=True)
 
-    # Commodities
+        # Commodities
         for series_id in commodities["unique_id"].unique():
-            subset = commodities[commodities["unique_id"] == series_id].sort_values("ds")
+            subset = commodities[commodities["unique_id"] == series_id].sort_values(
+                "ds"
+            )
             axes[0].plot(
                 subset["ds"],
                 subset["y"],
@@ -115,7 +118,7 @@ def plot_cross_domain_comparison(
         axes[0].legend(loc="best")
         axes[0].set_title("Commodities", fontsize=13)
 
-    # Culture
+        # Culture
         for series_id in culture["unique_id"].unique():
             subset = culture[culture["unique_id"] == series_id].sort_values("ds")
             axes[1].plot(
@@ -128,7 +131,7 @@ def plot_cross_domain_comparison(
         axes[1].legend(loc="best")
         axes[1].set_title("Cultural Indicators", fontsize=13)
 
-    # Macro
+        # Macro
         for series_id in macro["unique_id"].unique():
             subset = macro[macro["unique_id"] == series_id].sort_values("ds")
             axes[2].plot(
@@ -163,7 +166,7 @@ def plot_forecast_uncertainty(
     if plot:
         fig, ax = plt.subplots(figsize=(12, 6))
 
-    # Historical
+        # Historical
         ax.plot(
             historical["ds"],
             historical["y"],
@@ -172,7 +175,7 @@ def plot_forecast_uncertainty(
             color="steelblue",
         )
 
-    # Forecast mean
+        # Forecast mean
         ax.plot(
             forecast_mean["ds"],
             forecast_mean["y"],
@@ -182,7 +185,7 @@ def plot_forecast_uncertainty(
             color="coral",
         )
 
-    # Uncertainty bands
+        # Uncertainty bands
         if forecast_lower is not None and forecast_upper is not None:
             ax.fill_between(
                 forecast_mean["ds"],

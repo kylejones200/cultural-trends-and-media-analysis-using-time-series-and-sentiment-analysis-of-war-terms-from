@@ -3,17 +3,17 @@
 from __future__ import annotations
 
 import argparse
+import logging
 import subprocess
 import sys
 from pathlib import Path
 
-
-import logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
+
+
 def run_command(cmd: list[str], description: str) -> bool:
     """Run a command and return success status."""
     logger.info("=== Step: {description} ===")
@@ -21,7 +21,10 @@ def run_command(cmd: list[str], description: str) -> bool:
 
     result = subprocess.run(cmd, capture_output=False)
     if result.returncode != 0:
-        logger.error(f"✗ {description} failed with return code {result.returncode}", exc_info=True)
+        logger.error(
+            f"✗ {description} failed with return code {result.returncode}",
+            exc_info=True,
+        )
         return False
     logger.info(f"✓ {description} completed successfully")
     return True
@@ -75,7 +78,9 @@ def main() -> None:
             steps_completed += 1
         else:
             steps_failed += 1
-            logger.error("Warning: Data collection failed, but continuing...", exc_info=True)
+            logger.error(
+                "Warning: Data collection failed, but continuing...", exc_info=True
+            )
     else:
         logger.info("Skipping data collection (using existing data)")
         steps_completed += 1
@@ -113,7 +118,9 @@ def main() -> None:
             steps_completed += 1
         else:
             steps_failed += 1
-            logger.error("Warning: Forecasting failed, but continuing...", exc_info=True)
+            logger.error(
+                "Warning: Forecasting failed, but continuing...", exc_info=True
+            )
     else:
         logger.info("Skipping forecasting")
         steps_completed += 1
@@ -168,7 +175,9 @@ def main() -> None:
     if steps_failed == 0:
         logger.info("\n✓ Pipeline completed successfully!")
     else:
-        logger.error(f"\n⚠ Pipeline completed with {steps_failed} warning(s, exc_info=True)")
+        logger.error(
+            f"\n⚠ Pipeline completed with {steps_failed} warning(s, exc_info=True)"
+        )
 
 
 if __name__ == "__main__":

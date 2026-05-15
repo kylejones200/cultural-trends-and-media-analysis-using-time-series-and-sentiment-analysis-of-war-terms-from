@@ -7,18 +7,17 @@ saves them in standardized format for the forecasting pipeline.
 from __future__ import annotations
 
 import argparse
-from pathlib import Path
+import logging
 from datetime import datetime
+from pathlib import Path
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 import yfinance as yf
 from pandas_datareader import data as pdr
 
-import logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 # Override yfinance pandas_datareader
@@ -212,9 +211,7 @@ def load_amtrak_data() -> pd.DataFrame:
         return df
     # Try to load from shared data directory
     shared_path = (
-        project_root.parent.parent
-        / "data"
-        / "amtrak_ridership_time_series_data.csv"
+        project_root.parent.parent / "data" / "amtrak_ridership_time_series_data.csv"
     )
     if shared_path.exists():
         df = pd.read_csv(shared_path)
@@ -226,9 +223,7 @@ def load_amtrak_data() -> pd.DataFrame:
             df_agg.columns = ["ds", "y", "unique_id"]
             df_agg = df_agg[["unique_id", "ds", "y"]]
             return df_agg
-    raise FileNotFoundError(
-        f"Amtrak data not found at {amtrak_path} or {shared_path}"
-    )
+    raise FileNotFoundError(f"Amtrak data not found at {amtrak_path} or {shared_path}")
 
 
 def parse_args() -> argparse.Namespace:

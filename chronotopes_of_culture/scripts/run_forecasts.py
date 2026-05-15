@@ -3,23 +3,22 @@
 from __future__ import annotations
 
 import argparse
+import logging
 from pathlib import Path
 
 import pandas as pd
-from statsforecast import StatsForecast
-from statsforecast.models import AutoARIMA, SeasonalNaive
 from neuralforecast import NeuralForecast
 from neuralforecast.models import NHITS
-
+from statsforecast import StatsForecast
+from statsforecast.models import AutoARIMA, SeasonalNaive
 from utils.feature_pipeline import prepare_forecast_frame
 
-
-import logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Execute forecast pipelines for the cultural futures project"

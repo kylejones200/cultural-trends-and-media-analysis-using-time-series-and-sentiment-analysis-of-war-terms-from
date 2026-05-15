@@ -7,20 +7,20 @@ standardized parquet/csv files for forecasting pipelines.
 from __future__ import annotations
 
 import argparse
-from pathlib import Path
-import yaml
-import pandas as pd
-
-from utils.loaders import load_source
-from utils.feature_pipeline import harmonize_timeseries
-
-
 import logging
+from pathlib import Path
+
+import pandas as pd
+import yaml
+from utils.feature_pipeline import harmonize_timeseries
+from utils.loaders import load_source
+
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Build consolidated dataset for cultural futures forecasting"

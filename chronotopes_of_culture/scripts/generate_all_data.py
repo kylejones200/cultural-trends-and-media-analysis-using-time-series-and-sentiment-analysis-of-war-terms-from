@@ -1,14 +1,14 @@
 """Generate all required datasets for the project."""
 
-from pathlib import Path
-from datetime import datetime
-import pandas as pd
-import numpy as np
-
 import logging
+from datetime import datetime
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 # Add project root to path
@@ -16,9 +16,9 @@ project_root = Path(__file__).resolve().parents[1]
 
 # Import functions from collect_data
 from scripts.collect_data import (
-    generate_synthetic_film_releases,
-    generate_synthetic_book_sales,
     fetch_sentiment,
+    generate_synthetic_book_sales,
+    generate_synthetic_film_releases,
 )
 
 
@@ -108,9 +108,7 @@ def generate_amtrak_data():
     seasonal = 200000 * np.sin(2 * np.pi * (np.arange(len(dates)) - 6) / 12)
     noise = np.random.randn(len(dates)) * 100000
     # COVID dip in 2020
-    covid_dip = np.where(
-        (dates >= "2020-03-01") & (dates < "2021-06-01"), -1500000, 0
-    )
+    covid_dip = np.where((dates >= "2020-03-01") & (dates < "2021-06-01"), -1500000, 0)
     ridership = base + trend + seasonal + noise + covid_dip
     ridership = np.maximum(ridership, 1000000)
 
