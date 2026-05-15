@@ -1,6 +1,5 @@
 """Generate all required datasets for the project."""
 
-import sys
 from pathlib import Path
 from datetime import datetime
 import pandas as pd

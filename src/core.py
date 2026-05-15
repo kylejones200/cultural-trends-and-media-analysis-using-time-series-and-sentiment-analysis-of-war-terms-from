@@ -1,9 +1,7 @@
 """Core functions for sentiment analysis of war terms and cultural trends."""
 
-import numpy as np
 import pandas as pd
 from pathlib import Path
-from typing import Dict
 import matplotlib.pyplot as plt
 import logging
 
@@ -46,7 +44,7 @@ def plot_sentiment_trend(sentiment: pd.Series, title: str, output_path: Path, pl
         plt.savefig(output_path, dpi=100, bbox_inches="tight")
         plt.close()
 
-def plot_word_frequency(word_counts: Dict[str, int], title: str, output_path: Path, top_n: int = 10, plot: bool = False):
+def plot_word_frequency(word_counts: dict[str, int], title: str, output_path: Path, top_n: int = 10, plot: bool = False):
     """Plot word frequency """
     if plot:
         fig, ax = plt.subplots(figsize=(10, 6))

@@ -42,7 +42,7 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    with open(args.catalog, "r", encoding="utf-8") as fh:
+    with open(args.catalog, encoding="utf-8") as fh:
         catalog = yaml.safe_load(fh)
 
     frames: list[pd.DataFrame] = []

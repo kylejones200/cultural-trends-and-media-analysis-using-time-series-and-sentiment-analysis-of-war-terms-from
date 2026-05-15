@@ -9,7 +9,6 @@ from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-from matplotlib import font_manager
 
 import logging
 logging.basicConfig(
@@ -249,7 +248,7 @@ def main() -> None:
     commodities = df[df["unique_id"].isin(["gold_prices", "crude_oil"])]
     culture = df[df["unique_id"].isin(["film_releases", "book_sales"])]
     macro = df[df["unique_id"].isin(["inflation_cpi", "sentiment_index"])]
-    infrastructure = df[df["unique_id"].str.contains("amtrak", case=False, na=False)]
+    df[df["unique_id"].str.contains("amtrak", case=False, na=False)]
 
     # Plot individual time series
     logger.info("Generating individual time series plots...")
@@ -264,7 +263,7 @@ def main() -> None:
     logger.info("Generating cross-domain comparison...")
     output_path = args.output_dir / "cross_domain_comparison.png"
     plot_cross_domain_comparison(commodities, culture, macro, output_path)
-    logger.info(f"  ✓ Cross-domain comparison saved")
+    logger.info("  ✓ Cross-domain comparison saved")
 
     # Plot forecasts if available
     if args.forecast_file and args.forecast_file.exists():
