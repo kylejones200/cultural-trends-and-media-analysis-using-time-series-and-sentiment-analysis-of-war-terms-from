@@ -17,13 +17,13 @@ def calculate_sentiment_score(
     scores = []
     for text in text_data:
         if pd.isna(text):
-            pd.concat([scores, 0])
+            scores.append(0)
             continue
         text_lower = str(text).lower()
         positive_count = sum(1 for word in positive_words if word in text_lower)
         negative_count = sum(1 for word in negative_words if word in text_lower)
         score = (positive_count - negative_count) / max(len(text_lower.split()), 1)
-        pd.concat([scores, score])
+        scores.append(score)
     return pd.Series(scores, index=text_data.index)
 
 
