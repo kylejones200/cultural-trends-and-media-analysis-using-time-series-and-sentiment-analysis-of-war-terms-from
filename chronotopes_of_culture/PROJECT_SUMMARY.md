@@ -46,7 +46,7 @@ I've created a complete infrastructure for finishing your `chronotopes_of_cultur
 
 1. Install dependencies (if not already done):
    ```bash
-   cd /Users/kylejonespatricia/time_series/WIP/chronotopes_of_culture
+   cd chronotopes_of_culture
    pip install -r requirements.txt
    ```
 

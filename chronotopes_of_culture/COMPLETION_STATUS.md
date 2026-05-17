@@ -130,7 +130,7 @@ Action: After running forecasts, populate Section 4 (Results) in `reports/articl
 
 1. Execute the pipeline (see `EXECUTE_PIPELINE.md`):
    ```bash
-   cd /Users/kylejonespatricia/time_series/WIP/chronotopes_of_culture
+   cd chronotopes_of_culture
    python3 scripts/run_full_pipeline.py
    ```
 

@@ -18,14 +18,14 @@
 ### Step 1: Install Dependencies
 
 ```bash
-cd /Users/kylejonespatricia/time_series/WIP/chronotopes_of_culture
+cd chronotopes_of_culture
 pip install pandas numpy yfinance pandas-datareader statsforecast neuralforecast matplotlib pyyaml
 ```
 
 Or if you prefer a virtual environment:
 
 ```bash
-cd /Users/kylejonespatricia/time_series/WIP/chronotopes_of_culture
+cd chronotopes_of_culture
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt

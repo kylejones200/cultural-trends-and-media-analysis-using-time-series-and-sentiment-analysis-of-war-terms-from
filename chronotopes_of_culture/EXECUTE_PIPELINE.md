@@ -7,7 +7,7 @@ Since the shell environment has issues, here's how to manually complete the rema
 Run this Python script to create all data files:
 
 ```bash
-cd /Users/kylejonespatricia/time_series/WIP/chronotopes_of_culture
+cd chronotopes_of_culture
 python3 scripts/generate_all_data.py
 ```
 

@@ -42,3 +42,11 @@ Edit `config.yaml` to customize:
 - By default, generates synthetic text data.
 - Simple word-counting approach; advanced NLP methods available.
 - Word lists should be domain-specific for best results.
+
+## Disclaimer
+
+Educational/demo code only. Not financial, safety, or engineering advice. Use at your own risk. Verify results independently before any production or operational use.
+
+## License
+
+MIT — see [LICENSE](LICENSE).

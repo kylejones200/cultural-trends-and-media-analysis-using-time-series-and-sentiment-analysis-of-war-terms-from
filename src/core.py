@@ -31,27 +31,29 @@ def plot_sentiment_trend(
     sentiment: pd.Series, title: str, output_path: Path, plot: bool = False
 ):
     """Plot sentiment trend over time"""
-    if plot:
-        fig, ax = plt.subplots(figsize=(10, 6))
+    if not plot:
+        return
 
-        if hasattr(sentiment.index, "__len__") and len(sentiment.index) > 0:
-            if hasattr(sentiment.index[0], "year"):
-                ax.plot(
-                    sentiment.index, sentiment.values, color="#4A90A4", linewidth=1.2
-                )
-                ax.set_xlabel("Date")
-            else:
-                ax.plot(sentiment.values, color="#4A90A4", linewidth=1.2)
-                ax.set_xlabel("Time")
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    if hasattr(sentiment.index, "__len__") and len(sentiment.index) > 0:
+        if hasattr(sentiment.index[0], "year"):
+            ax.plot(
+                sentiment.index, sentiment.values, color="#4A90A4", linewidth=1.2
+            )
+            ax.set_xlabel("Date")
         else:
             ax.plot(sentiment.values, color="#4A90A4", linewidth=1.2)
             ax.set_xlabel("Time")
+    else:
+        ax.plot(sentiment.values, color="#4A90A4", linewidth=1.2)
+        ax.set_xlabel("Time")
 
-        ax.axhline(0, color="k", linestyle="--", linewidth=0.8, alpha=0.5)
-        ax.set_ylabel("Sentiment Score")
+    ax.axhline(0, color="k", linestyle="--", linewidth=0.8, alpha=0.5)
+    ax.set_ylabel("Sentiment Score")
 
-        plt.savefig(output_path, dpi=100, bbox_inches="tight")
-        plt.close()
+    plt.savefig(output_path, dpi=100, bbox_inches="tight")
+    plt.close()
 
 
 def plot_word_frequency(
@@ -62,17 +64,19 @@ def plot_word_frequency(
     plot: bool = False,
 ):
     """Plot word frequency"""
-    if plot:
-        fig, ax = plt.subplots(figsize=(10, 6))
+    if not plot:
+        return
 
-        sorted_words = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)[
-            :top_n
-        ]
-        words, counts = zip(*sorted_words)
+    fig, ax = plt.subplots(figsize=(10, 6))
 
-        ax.barh(words, counts, color="#4A90A4", alpha=0.7, edgecolor="none")
-        ax.set_xlabel("Frequency")
-        ax.set_ylabel("Word")
+    sorted_words = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)[
+        :top_n
+    ]
+    words, counts = zip(*sorted_words)
 
-        plt.savefig(output_path, dpi=100, bbox_inches="tight")
-        plt.close()
+    ax.barh(words, counts, color="#4A90A4", alpha=0.7, edgecolor="none")
+    ax.set_xlabel("Frequency")
+    ax.set_ylabel("Word")
+
+    plt.savefig(output_path, dpi=100, bbox_inches="tight")
+    plt.close()
