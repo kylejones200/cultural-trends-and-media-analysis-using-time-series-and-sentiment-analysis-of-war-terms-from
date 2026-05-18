@@ -18,7 +18,6 @@ def run_command(cmd: list[str], description: str) -> bool:
     """Run a command and return success status."""
     logger.info("=== Step: {description} ===")
     logger.info(f"Command: {' '.join(cmd)}")
-
     result = subprocess.run(cmd, capture_output=False)
     if result.returncode != 0:
         logger.error(
@@ -62,10 +61,8 @@ def main() -> None:
     args = parse_args()
     project_root = Path(__file__).resolve().parents[1]
     scripts_dir = project_root / "scripts"
-
     steps_completed = 0
     steps_failed = 0
-
     # Step 1: Data Collection
     if not args.skip_data_collection:
         cmd = [
@@ -171,7 +168,6 @@ def main() -> None:
     logger.info("=== Pipeline Summary ===")
     logger.info(f"Steps completed: {steps_completed}")
     logger.error(f"Steps failed: {steps_failed}", exc_info=True)
-
     if steps_failed == 0:
         logger.info("\n✓ Pipeline completed successfully!")
     else:

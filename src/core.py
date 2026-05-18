@@ -1,13 +1,9 @@
 """Core functions for sentiment analysis of war terms and cultural trends."""
 
-import logging
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 import pandas as pd
-
-# Configure logging
-logging.basicConfig(level=logging.INFO, format="%(message)s")
 
 
 def calculate_sentiment_score(
@@ -35,12 +31,9 @@ def plot_sentiment_trend(
         return
 
     fig, ax = plt.subplots(figsize=(10, 6))
-
     if hasattr(sentiment.index, "__len__") and len(sentiment.index) > 0:
         if hasattr(sentiment.index[0], "year"):
-            ax.plot(
-                sentiment.index, sentiment.values, color="#4A90A4", linewidth=1.2
-            )
+            ax.plot(sentiment.index, sentiment.values, color="#4A90A4", linewidth=1.2)
             ax.set_xlabel("Date")
         else:
             ax.plot(sentiment.values, color="#4A90A4", linewidth=1.2)
@@ -51,7 +44,6 @@ def plot_sentiment_trend(
 
     ax.axhline(0, color="k", linestyle="--", linewidth=0.8, alpha=0.5)
     ax.set_ylabel("Sentiment Score")
-
     plt.savefig(output_path, dpi=100, bbox_inches="tight")
     plt.close()
 
@@ -68,15 +60,10 @@ def plot_word_frequency(
         return
 
     fig, ax = plt.subplots(figsize=(10, 6))
-
-    sorted_words = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)[
-        :top_n
-    ]
+    sorted_words = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)[:top_n]
     words, counts = zip(*sorted_words)
-
     ax.barh(words, counts, color="#4A90A4", alpha=0.7, edgecolor="none")
     ax.set_xlabel("Frequency")
     ax.set_ylabel("Word")
-
     plt.savefig(output_path, dpi=100, bbox_inches="tight")
     plt.close()

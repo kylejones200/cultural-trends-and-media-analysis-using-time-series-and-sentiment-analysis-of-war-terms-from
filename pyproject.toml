@@ -3,6 +3,7 @@ name = "cultural-trends-and-media-analysis-using-time-seri"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
+    "pydantic>=2.10.0",
     "matplotlib>=3.10.9",
     "nltk>=3.9.4",
     "numpy>=2.4.4",
@@ -15,3 +16,7 @@ dependencies = [
 members = [
     "chronotopes_of_culture",
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

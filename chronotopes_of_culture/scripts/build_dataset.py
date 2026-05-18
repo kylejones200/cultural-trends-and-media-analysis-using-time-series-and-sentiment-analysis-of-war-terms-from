@@ -62,7 +62,6 @@ def main() -> None:
 
     combined = pd.concat(frames, ignore_index=True)
     harmonized = harmonize_timeseries(combined)
-
     args.output.parent.mkdir(parents=True, exist_ok=True)
     harmonized.to_parquet(args.output)
     logger.info(f"✓ Master dataset written -> {args.output}")

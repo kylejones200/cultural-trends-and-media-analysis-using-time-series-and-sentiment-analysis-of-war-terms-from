@@ -28,7 +28,6 @@ def plot_time_series(
         return
 
     fig, ax = plt.subplots(figsize=(10, 5))
-
     ax.plot(df["ds"], df["y"], linewidth=1.5, color="steelblue")
     ax.set_xlabel("Date", fontsize=12)
     ax.set_ylabel("Value", fontsize=12)
@@ -38,7 +37,6 @@ def plot_time_series(
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
     ax.xaxis.set_major_locator(mdates.YearLocator(2))
     plt.xticks(rotation=45)
-
     plt.tight_layout()
     plt.savefig(output_path)
     plt.close()
@@ -55,7 +53,6 @@ def plot_forecasts(
         return
 
     fig, ax = plt.subplots(figsize=(12, 6))
-
     # Plot historical
     ax.plot(
         historical["ds"],
@@ -64,14 +61,12 @@ def plot_forecasts(
         linewidth=2,
         color="steelblue",
     )
-
     # Plot forecasts by model
     model_colors = {
         "AutoARIMA": "coral",
         "SeasonalNaive": "forestgreen",
         "NHITS": "purple",
     }
-
     for model in forecasts["model"].unique():
         model_forecast = forecasts[forecasts["model"] == model].sort_values("ds")
         ax.plot(
@@ -88,10 +83,8 @@ def plot_forecasts(
     ax.set_ylabel("Value", fontsize=12)
     ax.set_title(title, fontsize=14, fontweight="bold")
     ax.legend(loc="best", frameon=True)
-
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m"))
     plt.xticks(rotation=45)
-
     plt.tight_layout()
     plt.savefig(output_path)
     plt.close()
@@ -108,12 +101,9 @@ def plot_cross_domain_comparison(
         return
 
     fig, axes = plt.subplots(3, 1, figsize=(12, 10), sharex=True)
-
     # Commodities
     for series_id in commodities["unique_id"].unique():
-        subset = commodities[commodities["unique_id"] == series_id].sort_values(
-            "ds"
-        )
+        subset = commodities[commodities["unique_id"] == series_id].sort_values("ds")
         axes[0].plot(
             subset["ds"],
             subset["y"],
@@ -123,7 +113,6 @@ def plot_cross_domain_comparison(
     axes[0].set_ylabel("Commodities", fontsize=12, fontweight="bold")
     axes[0].legend(loc="best")
     axes[0].set_title("Commodities", fontsize=13)
-
     # Culture
     for series_id in culture["unique_id"].unique():
         subset = culture[culture["unique_id"] == series_id].sort_values("ds")
@@ -136,7 +125,6 @@ def plot_cross_domain_comparison(
     axes[1].set_ylabel("Culture", fontsize=12, fontweight="bold")
     axes[1].legend(loc="best")
     axes[1].set_title("Cultural Indicators", fontsize=13)
-
     # Macro
     for series_id in macro["unique_id"].unique():
         subset = macro[macro["unique_id"] == series_id].sort_values("ds")
@@ -150,7 +138,6 @@ def plot_cross_domain_comparison(
     axes[2].set_xlabel("Date", fontsize=12)
     axes[2].legend(loc="best")
     axes[2].set_title("Macroeconomic Indicators", fontsize=13)
-
     for ax in axes:
         ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
         ax.xaxis.set_major_locator(mdates.YearLocator(2))
@@ -173,7 +160,6 @@ def plot_forecast_uncertainty(
         return
 
     fig, ax = plt.subplots(figsize=(12, 6))
-
     # Historical
     ax.plot(
         historical["ds"],
@@ -182,7 +168,6 @@ def plot_forecast_uncertainty(
         linewidth=2,
         color="steelblue",
     )
-
     # Forecast mean
     ax.plot(
         forecast_mean["ds"],
@@ -192,7 +177,6 @@ def plot_forecast_uncertainty(
         linewidth=2,
         color="coral",
     )
-
     # Uncertainty bands
     if forecast_lower is not None and forecast_upper is not None:
         ax.fill_between(
@@ -208,10 +192,8 @@ def plot_forecast_uncertainty(
     ax.set_ylabel("Value", fontsize=12)
     ax.set_title(title, fontsize=14, fontweight="bold")
     ax.legend(loc="best")
-
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m"))
     plt.xticks(rotation=45)
-
     plt.tight_layout()
     if output_path:
         plt.savefig(output_path)
@@ -244,7 +226,6 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=True)
-
     # Load master dataset
     master_path = args.data_dir / "master_dataset.parquet"
     if not master_path.exists():
@@ -254,13 +235,11 @@ def main() -> None:
 
     df = pd.read_parquet(master_path)
     df["ds"] = pd.to_datetime(df["ds"])
-
     # Separate by domain
     commodities = df[df["unique_id"].isin(["gold_prices", "crude_oil"])]
     culture = df[df["unique_id"].isin(["film_releases", "book_sales"])]
     macro = df[df["unique_id"].isin(["inflation_cpi", "sentiment_index"])]
     df[df["unique_id"].str.contains("amtrak", case=False, na=False)]
-
     # Plot individual time series
     logger.info("Generating individual time series plots...")
     for series_id in df["unique_id"].unique():
@@ -275,7 +254,6 @@ def main() -> None:
     output_path = args.output_dir / "cross_domain_comparison.png"
     plot_cross_domain_comparison(commodities, culture, macro, output_path)
     logger.info("  ✓ Cross-domain comparison saved")
-
     # Plot forecasts if available
     if args.forecast_file and args.forecast_file.exists():
         logger.info("Generating forecast visualizations...")
@@ -285,13 +263,11 @@ def main() -> None:
             else pd.read_csv(args.forecast_file)
         )
         forecasts["ds"] = pd.to_datetime(forecasts["ds"])
-
         for series_id in forecasts["unique_id"].unique():
             series_historical = df[df["unique_id"] == series_id].sort_values("ds")
             series_forecasts = forecasts[
                 forecasts["unique_id"] == series_id
             ].sort_values("ds")
-
             output_path = args.output_dir / f"{series_id}_forecasts.png"
             title = f"{series_id.replace('_', ' ').title()} Forecasts"
             plot_forecasts(

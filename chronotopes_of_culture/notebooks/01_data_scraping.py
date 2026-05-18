@@ -27,7 +27,7 @@ def main():
     amtrak_agg.head()
 
 
-def main() -> None:
+def main_alt() -> None:
     main()
 
 

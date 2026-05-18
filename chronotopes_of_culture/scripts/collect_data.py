@@ -162,7 +162,6 @@ def generate_synthetic_film_releases(
 
     dates = pd.date_range(start=start_date, end=end_date, freq="MS")
     np.random.seed(42)
-
     # Base trend: increasing over time
     trend = np.linspace(50, 80, len(dates))
     # Seasonal: peaks in summer and winter
@@ -171,10 +170,8 @@ def generate_synthetic_film_releases(
     )
     # Random noise
     noise = np.random.randn(len(dates)) * 5
-
     releases = trend + seasonal + noise
     releases = np.maximum(releases, 20)  # Minimum 20 releases per month
-
     return pd.DataFrame({"unique_id": "film_releases", "ds": dates, "y": releases})
 
 
@@ -187,17 +184,14 @@ def generate_synthetic_book_sales(
 
     dates = pd.date_range(start=start_date, end=end_date, freq="MS")
     np.random.seed(43)
-
     # Base trend: slight decline (digital competition)
     trend = np.linspace(100, 85, len(dates))
     # Seasonal: peaks in holiday season
     seasonal = 15 * np.sin(2 * np.pi * (np.arange(len(dates)) - 10) / 12)
     # Random noise
     noise = np.random.randn(len(dates)) * 3
-
     sales = trend + seasonal + noise
     sales = np.maximum(sales, 50)  # Minimum index of 50
-
     return pd.DataFrame({"unique_id": "book_sales", "ds": dates, "y": sales})
 
 
@@ -205,7 +199,6 @@ def load_amtrak_data() -> pd.DataFrame:
     """Load Amtrak ridership data from intermediate directory."""
     project_root = Path(__file__).resolve().parents[1]
     amtrak_path = project_root / "data" / "intermediate" / "amtrak_ridership.csv"
-
     if amtrak_path.exists():
         df = pd.read_csv(amtrak_path)
         return df
@@ -261,7 +254,6 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=True)
-
     datasets_to_collect = args.datasets
     if "all" in datasets_to_collect:
         datasets_to_collect = [
@@ -275,7 +267,6 @@ def main() -> None:
         ]
 
     collected = []
-
     if "gold" in datasets_to_collect:
         logger.info("Collecting gold prices...")
         try:

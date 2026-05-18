@@ -50,12 +50,10 @@ def build_narrative_brief(df: pd.DataFrame) -> str:
     macro_crosswinds = describe_trend(
         df[df["unique_id"].str.contains("inflation|sentiment", case=False, na=False)]
     )
-
     highlights = textwrap.fill(
         "Preliminary models indicate divergent futures across commodity and cultural signals; use these projections to stage scenario narratives.",
         width=88,
     )
-
     return TEMPLATE.format(
         horizon=int(horizon) if not pd.isna(horizon) else "unknown",
         series_count=series_count,

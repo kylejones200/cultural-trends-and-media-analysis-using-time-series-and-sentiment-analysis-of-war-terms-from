@@ -63,10 +63,8 @@ def main() -> None:
     args = parse_args()
     ds = pd.read_parquet(args.input)
     base = prepare_forecast_frame(ds)
-
     stats_results = run_statsforecast(base, args.horizon)
     neural_results = run_neuralforecast(base, args.horizon)
-
     combined = pd.concat([stats_results, neural_results], ignore_index=True)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     combined.to_parquet(args.output)

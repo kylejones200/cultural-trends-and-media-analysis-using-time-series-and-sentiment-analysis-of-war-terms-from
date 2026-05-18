@@ -18,7 +18,7 @@ logging.basicConfig(
 )
 
 
-def load_config(config_path: Path = None) -> dict:
+def load_config(config_path: Path | None = None) -> dict:
     """Load configuration from YAML file."""
     if config_path is None:
         config_path = Path(__file__).parent / "config.yaml"
@@ -39,7 +39,6 @@ def main():
         "--output-dir", type=Path, default=None, help="Output directory"
     )
     args = parser.parse_args()
-
     config = load_config(args.config)
     output_dir = (
         Path(args.output_dir)
@@ -47,7 +46,6 @@ def main():
         else Path(config["output"]["figures_dir"])
     )
     output_dir.mkdir(exist_ok=True)
-
     if args.data_path and args.data_path.exists():
         df = pd.read_csv(args.data_path)
         text_data = df.iloc[:, 0]
@@ -71,7 +69,6 @@ def main():
         )
     else:
         raise ValueError("No data source specified")
-
         sentiment = calculate_sentiment_score(
             text_data,
             config["sentiment"]["positive_words"],
@@ -80,11 +77,9 @@ def main():
 
     logging.info(f"Mean sentiment: {sentiment.mean():.4f}")
     logging.info(f"Sentiment range: [{sentiment.min():.4f}, {sentiment.max():.4f}]")
-
     plot_sentiment_trend(
         sentiment, "Sentiment Trend Over Time", output_dir / "sentiment_trend.png"
     )
-
     logging.info(f"\nAnalysis complete. Figures saved to {output_dir}")
 
 
