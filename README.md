@@ -2,6 +2,14 @@
 
 This project demonstrates sentiment analysis of war-related terms and cultural trends over time.
 
+## Business context
+
+Newspapers reflect how a country feels. They capture panic and patriotism, dread and hope. When wars begin or end, the front page often says more about the mood of the people than the official record ever could.
+
+This post uses historical newspaper archives to track sentiment shifts across four key terms --- war, army, battle, and peace --- from 1930 to 1950. We can examine how American public sentiment moved through World War II and the surrounding decades by combining sentiment analysis with time series.
+
+I used [Chronicling America](https://chroniclingamerica.loc.gov/), a Library of Congress project offering digitized U.S. newspapers from 1789 to 1963. I queried articles that mention war, army, battle, and peace. Then I extracted their publication dates and full text.
+
 ## Project Structure
 
 ```
